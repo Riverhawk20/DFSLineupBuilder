@@ -1,4 +1,4 @@
-package com.example.dfslineupbuilder.ui.login;
+package com.dfs.dfslineupbuilder.ui.login;
 
 import android.app.Activity;
 
@@ -22,10 +22,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.dfslineupbuilder.R;
-import com.example.dfslineupbuilder.ui.login.LoginViewModel;
-import com.example.dfslineupbuilder.ui.login.LoginViewModelFactory;
-import com.example.dfslineupbuilder.databinding.ActivityLoginBinding;
+import com.dfs.dfslineupbuilder.R;
+import com.dfs.dfslineupbuilder.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 

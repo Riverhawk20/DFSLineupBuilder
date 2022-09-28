@@ -1,4 +1,4 @@
-package com.example.dfslineupbuilder.ui.login;
+package com.dfs.dfslineupbuilder.ui.login;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.example.dfslineupbuilder.data.LoginRepository;
-import com.example.dfslineupbuilder.data.Result;
-import com.example.dfslineupbuilder.data.model.LoggedInUser;
-import com.example.dfslineupbuilder.R;
+import com.dfs.dfslineupbuilder.data.LoginRepository;
+import com.dfs.dfslineupbuilder.data.Result;
+import com.dfs.dfslineupbuilder.data.model.LoggedInUser;
+import com.dfs.dfslineupbuilder.R;
 
 public class LoginViewModel extends ViewModel {
 

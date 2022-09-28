@@ -1,11 +1,11 @@
-package com.example.dfslineupbuilder.ui.login;
+package com.dfs.dfslineupbuilder.ui.login;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
 
-import com.example.dfslineupbuilder.data.LoginDataSource;
-import com.example.dfslineupbuilder.data.LoginRepository;
+import com.dfs.dfslineupbuilder.data.LoginDataSource;
+import com.dfs.dfslineupbuilder.data.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

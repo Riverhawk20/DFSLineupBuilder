@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.dfslineupbuilder'
+    namespace 'com.dfs.dfslineupbuilder'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.dfslineupbuilder"
+        applicationId "com.dfs.dfslineupbuilder"
         minSdk 27
         targetSdk 32
         versionCode 1

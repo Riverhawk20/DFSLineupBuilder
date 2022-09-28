@@ -1,6 +1,6 @@
-package com.example.dfslineupbuilder.data;
+package com.dfs.dfslineupbuilder.data;
 
-import com.example.dfslineupbuilder.data.model.LoggedInUser;
+import com.dfs.dfslineupbuilder.data.model.LoggedInUser;
 
 import java.io.IOException;
 

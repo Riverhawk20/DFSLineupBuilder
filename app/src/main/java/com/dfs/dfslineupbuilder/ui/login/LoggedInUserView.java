@@ -1,4 +1,4 @@
-package com.example.dfslineupbuilder.ui.login;
+package com.dfs.dfslineupbuilder.ui.login;
 
 /**
  * Class exposing authenticated user details to the UI.

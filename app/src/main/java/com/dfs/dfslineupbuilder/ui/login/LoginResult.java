@@ -1,4 +1,4 @@
-package com.example.dfslineupbuilder.ui.login;
+package com.dfs.dfslineupbuilder.ui.login;
 
 import androidx.annotation.Nullable;
 

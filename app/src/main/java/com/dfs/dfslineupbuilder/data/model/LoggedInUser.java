@@ -1,4 +1,4 @@
-package com.example.dfslineupbuilder.data.model;
+package com.dfs.dfslineupbuilder.data.model;
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
