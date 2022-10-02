@@ -13,4 +13,6 @@
     <string name="loginBtnTxt">Login</string>
     <string name="createAccountBtnTxt">Create Account</string>
     <string name="signUpBtnTxt">Sign Up</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

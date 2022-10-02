@@ -40,6 +40,14 @@
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainLoginBtn" />
+    <!--
+    <androidx.fragment.app.FragmentContainerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_container_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.dfs.dfslineupbuilder.fragment.ListFragment" />
+     -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
