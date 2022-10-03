@@ -65,4 +65,11 @@ public class ListFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_list, container, false);
     }
+
+    @Override
+    public void onDestroyView() {
+        Log.d("ListFragment", "onDestroyView Fragment");
+        // Inflate the layout for this fragment
+        super.onDestroyView();
+    }
 }
