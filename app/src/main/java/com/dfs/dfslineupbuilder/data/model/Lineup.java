@@ -12,8 +12,8 @@ public class Lineup {
     public int FantasyPoints;
     public int TotalSalary;
 
-    public Lineup(int salary, int fantasyPoints){
-        this.TotalSalary = salary;
-        this.FantasyPoints =fantasyPoints;
+    public Lineup(int TotalSalary, int FantasyPoints){
+        this.TotalSalary = TotalSalary;
+        this.FantasyPoints =FantasyPoints;
     }
 }

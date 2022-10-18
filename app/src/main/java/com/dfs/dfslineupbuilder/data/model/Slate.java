@@ -10,13 +10,13 @@ public class Slate {
 
     public String SeasonYear;
     public int Week;
-    public Date StartDate;
+    public String StartDate;
     public String SlateName;
 
-    public Slate(String seasonYear, String slateName, Date startDate, int week){
-        this.SeasonYear = seasonYear;
-        this.Week =week;
-        this.StartDate = startDate;
-        this.SlateName = slateName;
+    public Slate(String SeasonYear, String SlateName, String StartDate, int Week){
+        this.SeasonYear = SeasonYear;
+        this.Week =Week;
+        this.StartDate = StartDate;
+        this.SlateName = SlateName;
     }
 }

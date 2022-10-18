@@ -10,8 +10,8 @@ public class User {
     public String Email;
     public String PasswordHash;
 
-    public User(String email, String passwordHash){
-        this.Email = email;
-        this.PasswordHash = passwordHash;
+    public User(String Email, String PasswordHash){
+        this.Email = Email;
+        this.PasswordHash = PasswordHash;
     }
 }

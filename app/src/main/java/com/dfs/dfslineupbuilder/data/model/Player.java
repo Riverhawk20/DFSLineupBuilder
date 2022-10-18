@@ -15,12 +15,12 @@ public class Player {
     public int Salary;
     public int FantasyPoints;
 
-    public Player(String name, String position, String team, String opponent, int salary, int fantasyPoints){
-        this.Name = name;
-        this.Position =position;
-        this.Team = team;
-        this.Opponent = opponent;
-        this.Salary = salary;
-        this.FantasyPoints = fantasyPoints;
+    public Player(String Name, String Position, String Team, String Opponent, int Salary, int FantasyPoints){
+        this.Name = Name;
+        this.Position =Position;
+        this.Team = Team;
+        this.Opponent = Opponent;
+        this.Salary = Salary;
+        this.FantasyPoints = FantasyPoints;
     }
 }
