@@ -2,6 +2,7 @@ package com.dfs.dfslineupbuilder;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +13,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dfs.dfslineupbuilder.data.model.Slate;
 import com.dfs.dfslineupbuilder.fragment.LineUpFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder> {
-    private List<String> slates = new ArrayList<>();
+    private List<Slate> slates;
     private Context context;
+
+    public SlateAdapter(Context context, List<Slate> slateList){
+        this.context = context;
+        this.slates = slateList;
+    }
 
     @NonNull
     @Override
@@ -34,7 +40,7 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
 
     @Override
     public void onBindViewHolder(@NonNull SlateHolder holder, int position) {
-        String text = slates.get(position);
+        String text = slates.get(position).SlateName;
         holder.slateText.setText(text);
         holder.slateText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,13 +60,17 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
         return slates.size();
     }
 
-    public void setSlates(List<String> slates) {
-        List<String> tempSlates = new ArrayList<>();
-        tempSlates.add("Slate 1");
-        tempSlates.add("Slate 2");
-        tempSlates.add("Slate 3");
-        this.slates = tempSlates;
-        notifyDataSetChanged();
+//    public void setSlates(List<String> slates) {
+//        List<String> tempSlates = new ArrayList<>();
+//        tempSlates.add("Slate 1");
+//        tempSlates.add("Slate 2");
+//        tempSlates.add("Slate 3");
+//        this.slates = tempSlates;
+//        notifyDataSetChanged();
+//    }
+
+    public void getAllSlates(List<Slate> slateList){
+        this.slates = slateList;
     }
 
     class SlateHolder extends RecyclerView.ViewHolder {

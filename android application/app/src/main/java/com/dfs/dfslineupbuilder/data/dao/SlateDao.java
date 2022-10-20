@@ -1,5 +1,6 @@
 package com.dfs.dfslineupbuilder.data.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -14,13 +15,13 @@ import java.util.List;
 public interface SlateDao {
 
     @Query("SELECT * FROM slate")
-    List<Slate> getAll();
+    LiveData<List<Slate>> getAll();
 
     @Query("SELECT * FROM slate WHERE SlateId IN (:slateIds)")
     List<Slate> loadAllByIds(int[] slateIds);
 
     @Insert
-    void insertAll(Slate... slates);
+    void insert(List<Slate> slateList);
 
     @Delete
     void delete(Slate slate);

@@ -1,7 +1,13 @@
 package com.dfs.dfslineupbuilder.data;
 
+import android.content.Context;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.room.Database;
+import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.dfs.dfslineupbuilder.data.dao.LineupDao;
 import com.dfs.dfslineupbuilder.data.dao.PlayerDao;
@@ -18,4 +24,31 @@ public abstract class EntityRoomDatabase extends RoomDatabase {
     public abstract PlayerDao playerDao();
     public abstract SlateDao slateDao();
     public abstract LineupDao lineupDao();
+
+    //using singleton database
+    private static volatile EntityRoomDatabase INSTANCE;
+
+    static EntityRoomDatabase getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (EntityRoomDatabase.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                                    EntityRoomDatabase.class, "entity_database").addCallback(callback)
+                            .build();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    static Callback callback=new Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+//            db.beginTransaction();
+//            db.execSQL("INSERT INTO Slate VALUES(?,?,?,?,?)", new Object[]{1,"2022",5,"Oct 16", "dummy slate"});
+//            db.endTransaction();
+        }
+    };
+
 }
