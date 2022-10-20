@@ -63,10 +63,14 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                     .withExpressionAttributeValues(expressionAttributeValues);
             ScanResult result = clientShell.scan(scanRequest);
             // convert DynamoDB result into JSON!
-            Object itemJson = getJson(result.getItems());
+            List<Object> itemsJson = getJson(result.getItems());
+            List<Object> finalJson = new ArrayList();
+            for (Object item : itemsJson) {
+                finalJson.add(((HashMap) item).get("document"));
+            }
             return response
                     .withStatusCode(200)
-                    .withBody(new Gson().toJson(itemJson));
+                    .withBody(new Gson().toJson(finalJson));
         } catch (Exception e) {
             e.printStackTrace();
             return response
@@ -75,7 +79,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
         }
     }
 
-    public Object getJson(List<Map<String, AttributeValue>> mapList) {
+    public List<Object> getJson(List<Map<String, AttributeValue>> mapList) {
         List<Object> finalJson = new ArrayList();
         for (Map<String, AttributeValue> eachEntry : mapList) {
             finalJson.add(mapToJson(eachEntry));

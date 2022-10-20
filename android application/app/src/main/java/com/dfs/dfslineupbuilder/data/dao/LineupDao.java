@@ -3,6 +3,7 @@ package com.dfs.dfslineupbuilder.data.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.dfs.dfslineupbuilder.data.model.Lineup;
@@ -18,7 +19,7 @@ public interface LineupDao {
     @Query("SELECT * FROM lineup WHERE LineupId IN (:lineupIds)")
     List<Lineup> loadAllByIds(int[] lineupIds);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Lineup... lineups);
 
     @Delete
