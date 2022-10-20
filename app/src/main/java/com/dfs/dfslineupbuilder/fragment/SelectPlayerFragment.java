@@ -9,18 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.dfs.dfslineupbuilder.LineUpAdapter;
 import com.dfs.dfslineupbuilder.R;
-import com.dfs.dfslineupbuilder.SlateAdapter;
+import com.dfs.dfslineupbuilder.SelectPlayerAdapter;
 
 import java.util.ArrayList;
 
-public class LineUpFragment extends Fragment {
-
-    TextView balanceText;
-    TextView positionFilled;
+public class SelectPlayerFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,13 +25,12 @@ public class LineUpFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_line_up, container, false);
-        RecyclerView recyclerView = v.findViewById(R.id.LineUpContainerLayout);
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_select_player, container, false);
+        RecyclerView recyclerView = v.findViewById(R.id.PlayerContainerLayout);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        LineUpAdapter adapter = new LineUpAdapter();
+        SelectPlayerAdapter adapter = new SelectPlayerAdapter();
         adapter.setContext(getContext());
         recyclerView.setAdapter(adapter);
         adapter.setSlates(new ArrayList<>());

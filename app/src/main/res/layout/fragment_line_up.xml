@@ -33,20 +33,13 @@
         app:layout_constraintTop_toBottomOf="@+id/frameLayout"
         app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/LineUpContainerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/LineUpContainerTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textAlignment="center"
-                android:text="TextView" />
-        </LinearLayout>
+            android:orientation="vertical"
+            tools:listitem="@layout/player_select_card">
+        </androidx.recyclerview.widget.RecyclerView>
     </ScrollView>
 
     <LinearLayout
