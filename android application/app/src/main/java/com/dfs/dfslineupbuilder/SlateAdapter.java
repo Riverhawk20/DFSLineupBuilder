@@ -41,7 +41,7 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
     @Override
     public void onBindViewHolder(@NonNull SlateHolder holder, int position) {
         String text = slates.get(position).SlateName;
-        holder.slateText.setText(text);
+        holder.slateText.setText(text==null?"Classic":text);
         holder.slateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
