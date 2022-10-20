@@ -28,4 +28,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void UserPage(View v){
+        Intent i = new Intent(this, UserLandingPageActivity.class);
+        startActivity(i);
+    }
+
 }
