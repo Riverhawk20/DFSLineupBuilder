@@ -50,7 +50,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
             ArrayList<Item> writeItems = new ArrayList<Item>();
             for (Slate slate : slates) {
                 writeItems.add(new Item().withJSON("document", new Gson().toJson(slate)).withPrimaryKey("SlateId",
-                        slate.SlateId, "StartDate", slate.StartDate));
+                        slate.SlateId, "StartDate", slate.StartDate).with("Sport", "NFL"));
             }
             TableWriteItems tableWriteItems = new TableWriteItems(DYNAMODB_TABLE_NAME).withItemsToPut(writeItems);
             AmazonDynamoDBClient clientShell = new AmazonDynamoDBClient();

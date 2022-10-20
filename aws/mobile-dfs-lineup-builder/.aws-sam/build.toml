@@ -10,4 +10,13 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["WriteSlateDataFunction"]
 
+[function_build_definitions.5a7fd86c-11dd-45f3-82cf-2f30bc7505fd]
+codeuri = "E:\\Mobile Apps - DFSLineupBuilder\\aws\\mobile-dfs-lineup-builder\\QuerySlateDataFunction"
+runtime = "java11"
+architecture = "x86_64"
+handler = "slate.App::handleRequest"
+manifest_hash = ""
+packagetype = "Zip"
+functions = ["QuerySlateDataFunction"]
+
 [layer_build_definitions]
