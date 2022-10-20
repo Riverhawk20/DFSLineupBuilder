@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "DfsLineupBuilderMobile"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-qr9wx8yjo50i"
+s3_prefix = "DfsLineupBuilderMobile"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
