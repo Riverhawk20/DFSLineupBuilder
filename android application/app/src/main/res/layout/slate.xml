@@ -7,18 +7,36 @@
     android:layout_marginRight="10dp">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
         android:padding="8dp">
+
         <TextView
             android:id="@+id/SlateTxtId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="245dp"
+            android:layout_height="41dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="10dp"
             android:text="Slate 1"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/RemoveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="8dp"
+            android:layout_toStartOf="@+id/SlateTxtId"
+            android:minHeight="48dp"
+            android:text="X" />
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

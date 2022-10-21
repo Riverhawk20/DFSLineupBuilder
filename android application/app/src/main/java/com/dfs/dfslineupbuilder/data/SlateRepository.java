@@ -32,6 +32,11 @@ public class SlateRepository {
         new InsertAsyncTask(db).execute(slateList);
     }
 
+    public void delete(Slate slate){
+        Log.d("delete slate","deleting a task");
+        new DeleteAsyncTask(db).execute(slate);
+    }
+
     public LiveData<List<Slate>> getSlates(){
         Log.i("slate repo", "got slates: "+allSlates.getValue());
         return allSlates;
@@ -46,6 +51,19 @@ public class SlateRepository {
         @Override
         protected Void doInBackground(List<Slate>... lists) {
             slateDao.insert(lists[0]);
+            return null;
+        }
+    }
+
+    static class DeleteAsyncTask extends AsyncTask<Slate,Void,Void> {
+        private SlateDao slateDao;
+        DeleteAsyncTask(EntityRoomDatabase entityRoomDatabase)
+        {
+            slateDao= entityRoomDatabase.slateDao();
+        }
+        @Override
+        protected Void doInBackground(Slate... lists) {
+            slateDao.delete((lists[0]));
             return null;
         }
     }

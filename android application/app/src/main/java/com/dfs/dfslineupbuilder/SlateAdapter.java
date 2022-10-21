@@ -6,11 +6,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dfs.dfslineupbuilder.data.model.Slate;
@@ -21,6 +23,7 @@ import java.util.List;
 public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder> {
     private List<Slate> slates;
     private Context context;
+    private SlateViewModel slateViewModel;
 
     public SlateAdapter(Context context, List<Slate> slateList){
         this.context = context;
@@ -31,11 +34,12 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
     @Override
     public SlateHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.slate, parent, false);
+        context = parent.getContext();
         return new SlateHolder(itemView);
     }
 
-    public void setContext(Context context) {
-        this.context = context;
+    public void setContext(SlateViewModel slateViewModel) {
+        this.slateViewModel =  slateViewModel;
     }
 
     @Override
@@ -53,11 +57,23 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
                 fm.beginTransaction().replace(R.id.ContentFragment, fragment).commit();
             }
         });
+
+        holder.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                slateViewModel.remove(slates.get(position));
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
         return slates.size();
+    }
+
+    public void removeItem(int pos){
+
     }
 
 //    public void setSlates(List<String> slates) {
@@ -75,10 +91,12 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
 
     class SlateHolder extends RecyclerView.ViewHolder {
         private TextView slateText;
+        private Button closeBtn;
 
         public SlateHolder(@NonNull View itemView) {
             super(itemView);
             slateText = itemView.findViewById(R.id.SlateTxtId);
+            closeBtn = itemView.findViewById(R.id.RemoveBtn);
         }
     }
 }

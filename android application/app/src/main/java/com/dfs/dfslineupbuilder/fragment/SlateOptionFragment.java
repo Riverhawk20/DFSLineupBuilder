@@ -60,9 +60,9 @@ public class SlateOptionFragment extends Fragment {
         slateAdapter = new SlateAdapter(getContext(), slateList);
 
         recyclerView.setAdapter(slateAdapter);
-        //slateAdapter.setSlates(new ArrayList<>());
         slateViewModel = new ViewModelProvider(this).get(SlateViewModel.class);
         networkRequest();
+        slateAdapter.setContext(slateViewModel);
         slateViewModel.getSlates().observe(getViewLifecycleOwner(), new Observer<List<Slate>>() {
             @Override
             public void onChanged(List<Slate> slateList) {
