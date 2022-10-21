@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.dfs.dfslineupbuilder.data.LoginRepository;
+import com.dfs.dfslineupbuilder.data.repository.LoginRepository;
 import com.dfs.dfslineupbuilder.data.Result;
 import com.dfs.dfslineupbuilder.data.model.LoggedInUser;
 import com.dfs.dfslineupbuilder.R;

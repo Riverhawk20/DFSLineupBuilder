@@ -3,32 +3,23 @@ package com.dfs.dfslineupbuilder.ui.login;
 import android.app.Activity;
 
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dfs.dfslineupbuilder.R;
 import com.dfs.dfslineupbuilder.UserLandingPageActivity;
-import com.dfs.dfslineupbuilder.UserViewModel;
+import com.dfs.dfslineupbuilder.viewmodel.UserViewModel;
 import com.dfs.dfslineupbuilder.data.model.User;
 import com.dfs.dfslineupbuilder.databinding.ActivityLoginBinding;
 
@@ -166,28 +157,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 
-    private void checkLogin(){
+    private boolean checkLogin(){
        final String email = emailET.getText().toString();
        final String password = passwordET.getText().toString();
-       //User user = new User(email, password);
 
-        boolean userMatch = false;
         for (User user: allUsers) {
             if(user.Email.equals(email) && user.PasswordHash.equals(password)){
                 Log.i("login activity","user found");
-                userMatch = true;
+                return true;
             }
         }
-        if(userMatch){
-            Log.i("login activity", "user found");
-            //startActivity(new Intent(this, UserLandingPageActivity.class));
-        }else{
-            Log.i("login activity", "user not found");
-        }
+        Log.i("login activity", "user not found");
+        return false;
     }
 
     @Override
     public void onClick(View view) {
-        checkLogin();
+        if(checkLogin()){
+            startActivity(new Intent(this.getApplicationContext(), UserLandingPageActivity.class));
+        }
     }
 }

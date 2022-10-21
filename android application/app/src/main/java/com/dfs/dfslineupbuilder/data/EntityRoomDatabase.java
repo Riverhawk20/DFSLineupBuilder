@@ -30,16 +30,14 @@ public abstract class EntityRoomDatabase extends RoomDatabase {
 
     //using singleton database
     private static volatile EntityRoomDatabase INSTANCE;
-    private static final int numberOfThreads = 2;
 
-    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(numberOfThreads);
 
-    static EntityRoomDatabase getDatabase(final Context context) {
+    public static EntityRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (EntityRoomDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    EntityRoomDatabase.class, "entity_database").addCallback(callback)
+                                    EntityRoomDatabase.class, "entity_database")
                             .build();
                 }
             }
@@ -47,14 +45,5 @@ public abstract class EntityRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    static Callback callback=new Callback() {
-        @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
-//            db.beginTransaction();
-//            db.execSQL("INSERT INTO Slate VALUES(?,?,?,?,?)", new Object[]{1,"2022",5,"Oct 16", "dummy slate"});
-//            db.endTransaction();
-        }
-    };
 
 }

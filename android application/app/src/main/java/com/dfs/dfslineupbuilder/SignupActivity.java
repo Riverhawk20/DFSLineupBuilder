@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.dfs.dfslineupbuilder.data.model.User;
+import com.dfs.dfslineupbuilder.viewmodel.UserViewModel;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "SignupActivity";
@@ -72,8 +73,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         Log.i("signup activity","create account clicked");
         if(view.getId() == R.id.ConfirmCreateAccountButton){
             createAccount();
-            //startActivity(new Intent(SignupActivity.this, UserLandingPageActivity.class));
-
+            startActivity(new Intent(this.getApplicationContext(), UserLandingPageActivity.class));
         }
     }
 

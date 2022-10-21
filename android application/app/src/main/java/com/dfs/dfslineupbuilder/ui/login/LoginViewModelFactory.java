@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
 
 import com.dfs.dfslineupbuilder.data.LoginDataSource;
-import com.dfs.dfslineupbuilder.data.LoginRepository;
+import com.dfs.dfslineupbuilder.data.repository.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

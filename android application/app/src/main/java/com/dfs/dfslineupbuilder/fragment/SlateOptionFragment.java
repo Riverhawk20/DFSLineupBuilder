@@ -1,6 +1,5 @@
 package com.dfs.dfslineupbuilder.fragment;
 
-import android.app.Application;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,13 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.dfs.dfslineupbuilder.R;
 import com.dfs.dfslineupbuilder.SlateAdapter;
-import com.dfs.dfslineupbuilder.SlateViewModel;
-import com.dfs.dfslineupbuilder.data.SlateRepository;
+import com.dfs.dfslineupbuilder.viewmodel.SlateViewModel;
+import com.dfs.dfslineupbuilder.data.repository.SlateRepository;
 import com.dfs.dfslineupbuilder.data.model.Slate;
 import com.dfs.dfslineupbuilder.retrofit.APIClient;
 import com.dfs.dfslineupbuilder.retrofit.APIInterface;
@@ -31,7 +28,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class SlateOptionFragment extends Fragment {
 
@@ -52,12 +48,12 @@ public class SlateOptionFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_slate_option, container, false);
         recyclerView = v.findViewById(R.id.SlateContainer);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext().getApplicationContext()));
         recyclerView.setHasFixedSize(true);
 
         slateRepository = new SlateRepository(getActivity().getApplication());
         slateList = new ArrayList<>();
-        slateAdapter = new SlateAdapter(getContext(), slateList);
+        slateAdapter = new SlateAdapter(getContext().getApplicationContext(), slateList);
 
         recyclerView.setAdapter(slateAdapter);
         slateViewModel = new ViewModelProvider(this).get(SlateViewModel.class);

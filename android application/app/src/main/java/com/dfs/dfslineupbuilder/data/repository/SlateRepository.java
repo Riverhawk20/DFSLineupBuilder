@@ -1,4 +1,4 @@
-package com.dfs.dfslineupbuilder.data;
+package com.dfs.dfslineupbuilder.data.repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -7,11 +7,13 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.dfs.dfslineupbuilder.data.EntityRoomDatabase;
 import com.dfs.dfslineupbuilder.data.dao.SlateDao;
 import com.dfs.dfslineupbuilder.data.model.Slate;
 import com.dfs.dfslineupbuilder.retrofit.APIClient;
 import com.dfs.dfslineupbuilder.retrofit.APIInterface;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,7 +26,7 @@ public class SlateRepository {
     private LiveData<List<Slate>> allSlates;
 
     public SlateRepository(Application application){
-        db = EntityRoomDatabase.getDatabase(application);
+        db = EntityRoomDatabase.getDatabase(application.getApplicationContext());
         allSlates = db.slateDao().getAll();
     }
 
@@ -44,9 +46,11 @@ public class SlateRepository {
 
     static class InsertAsyncTask extends AsyncTask<List<Slate>,Void,Void> {
         private SlateDao slateDao;
+        private final WeakReference<EntityRoomDatabase> entityRoomDatabaseWeakReference;
         InsertAsyncTask(EntityRoomDatabase entityRoomDatabase)
         {
-            slateDao= entityRoomDatabase.slateDao();
+            this.entityRoomDatabaseWeakReference = new WeakReference<>(entityRoomDatabase);
+            slateDao= entityRoomDatabaseWeakReference.get().slateDao();
         }
         @Override
         protected Void doInBackground(List<Slate>... lists) {
@@ -57,9 +61,11 @@ public class SlateRepository {
 
     static class DeleteAsyncTask extends AsyncTask<Slate,Void,Void> {
         private SlateDao slateDao;
+        private final WeakReference<EntityRoomDatabase> entityRoomDatabaseWeakReference;
         DeleteAsyncTask(EntityRoomDatabase entityRoomDatabase)
         {
-            slateDao= entityRoomDatabase.slateDao();
+            this.entityRoomDatabaseWeakReference = new WeakReference<>(entityRoomDatabase);
+            slateDao= entityRoomDatabaseWeakReference.get().slateDao();
         }
         @Override
         protected Void doInBackground(Slate... lists) {
