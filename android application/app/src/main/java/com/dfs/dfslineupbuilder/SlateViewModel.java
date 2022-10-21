@@ -27,6 +27,7 @@ public class SlateViewModel extends AndroidViewModel {
         slateRepository.insert(list);
     }
 
+
     public LiveData<List<Slate>> getSlates()
     {
         return allSlates;

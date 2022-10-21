@@ -1,5 +1,6 @@
 package com.dfs.dfslineupbuilder.data.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -14,13 +15,13 @@ import java.util.List;
 public interface UserDao {
 
     @Query("SELECT * FROM user")
-    List<User> getAll();
+    LiveData<List<User>> getAll();
 
     @Query("SELECT * FROM user WHERE UserId IN (:userIds)")
     List<User> loadAllByIds(int[] userIds);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(User... users);
+    void insert(User user);
 
     @Delete
     void delete(User user);

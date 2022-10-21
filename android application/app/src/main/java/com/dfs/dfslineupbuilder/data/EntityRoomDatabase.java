@@ -18,6 +18,9 @@ import com.dfs.dfslineupbuilder.data.model.Player;
 import com.dfs.dfslineupbuilder.data.model.Slate;
 import com.dfs.dfslineupbuilder.data.model.User;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Database(entities = {User.class, Lineup.class, Slate.class, Player.class}, version = 1)
 public abstract class EntityRoomDatabase extends RoomDatabase {
     public abstract UserDao userDao();
@@ -27,6 +30,9 @@ public abstract class EntityRoomDatabase extends RoomDatabase {
 
     //using singleton database
     private static volatile EntityRoomDatabase INSTANCE;
+    private static final int numberOfThreads = 2;
+
+    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(numberOfThreads);
 
     static EntityRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
