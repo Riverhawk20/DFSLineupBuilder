@@ -36,7 +36,6 @@ public class LineUpFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         LineUpAdapter adapter = new LineUpAdapter();
-        adapter.setContext(getContext());
         recyclerView.setAdapter(adapter);
         adapter.setSlates(new ArrayList<>());
         return v;
