@@ -31,7 +31,6 @@ public class SelectPlayerFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         SelectPlayerAdapter adapter = new SelectPlayerAdapter();
-        adapter.setContext(getContext());
         recyclerView.setAdapter(adapter);
         adapter.setSlates(new ArrayList<>());
         return v;

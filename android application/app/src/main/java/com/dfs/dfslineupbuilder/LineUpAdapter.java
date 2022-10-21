@@ -25,11 +25,8 @@ public class LineUpAdapter extends RecyclerView.Adapter<LineUpAdapter.LineUpHold
     @Override
     public LineUpHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_select_card,parent,false);
+        this.context = parent.getContext();
         return new LineUpHolder(itemView);
-    }
-
-    public void setContext(Context context){
-        this.context = context;
     }
 
     @Override

@@ -38,7 +38,7 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
         return new SlateHolder(itemView);
     }
 
-    public void setContext(SlateViewModel slateViewModel) {
+    public void setViewModel(SlateViewModel slateViewModel) {
         this.slateViewModel =  slateViewModel;
     }
 

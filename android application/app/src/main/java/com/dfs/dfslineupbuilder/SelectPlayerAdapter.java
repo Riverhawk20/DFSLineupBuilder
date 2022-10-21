@@ -20,11 +20,8 @@ public class SelectPlayerAdapter extends RecyclerView.Adapter<SelectPlayerAdapte
     @Override
     public SelectPlayerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_card,parent,false);
+        this.context = parent.getContext();
         return new SelectPlayerHolder(itemView);
-    }
-
-    public void setContext(Context context){
-        this.context = context;
     }
 
     @Override
