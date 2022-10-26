@@ -1,4 +1,4 @@
-package com.dfs.dfslineupbuilder;
+package com.dfs.dfslineupbuilder.viewmodel;
 
 import android.app.Application;
 
@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.dfs.dfslineupbuilder.data.SlateRepository;
+import com.dfs.dfslineupbuilder.data.repository.SlateRepository;
 import com.dfs.dfslineupbuilder.data.model.Slate;
 
 import java.util.List;

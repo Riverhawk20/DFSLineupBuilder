@@ -1,9 +1,10 @@
-package com.dfs.dfslineupbuilder.data;
+package com.dfs.dfslineupbuilder.data.repository;
 
 import android.app.Application;
 
 import androidx.room.Room;
 
+import com.dfs.dfslineupbuilder.data.EntityRoomDatabase;
 import com.dfs.dfslineupbuilder.data.dao.LineupDao;
 import com.dfs.dfslineupbuilder.data.dao.PlayerDao;
 import com.dfs.dfslineupbuilder.data.dao.SlateDao;

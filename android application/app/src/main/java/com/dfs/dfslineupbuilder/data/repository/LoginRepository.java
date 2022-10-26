@@ -1,5 +1,7 @@
-package com.dfs.dfslineupbuilder.data;
+package com.dfs.dfslineupbuilder.data.repository;
 
+import com.dfs.dfslineupbuilder.data.LoginDataSource;
+import com.dfs.dfslineupbuilder.data.Result;
 import com.dfs.dfslineupbuilder.data.model.LoggedInUser;
 
 /**
