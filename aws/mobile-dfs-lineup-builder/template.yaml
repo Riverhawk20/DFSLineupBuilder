@@ -69,6 +69,43 @@ Resources:
             Limit: 500
             Period: DAY
 
+  WriteLineupsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Policies:
+      DynamoDBReadPolicy:
+        TableName: !Ref LineupTable
+    Properties:
+      CodeUri: WriteLineupsFunction
+      Handler: slate.App::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
+      Events:
+        QuerySlateDataEvent:
+          Type: Api
+          Properties:
+            Path: /writelineup
+            Method: POST
+            RestApiId:
+              Ref: WriteLineupApi
+
+  WriteLineupApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Name: WriteLineupApi
+      Auth:
+        ApiKeyRequired: true
+        UsagePlan:
+          CreateUsagePlan: PER_API
+          Quota:
+            Limit: 500
+            Period: DAY
+
   SlateTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -83,4 +120,20 @@ Resources:
         - AttributeName: SlateId
           KeyType: HASH
         - AttributeName: StartDate
+          KeyType: RANGE
+
+  LineupTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: dfs-lineup-builder-lineups
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: LineupId
+          AttributeType: N
+        - AttributeName: UserId
+          AttributeType: N
+      KeySchema:
+        - AttributeName: LineupId
+          KeyType: HASH
+        - AttributeName: UserId
           KeyType: RANGE
