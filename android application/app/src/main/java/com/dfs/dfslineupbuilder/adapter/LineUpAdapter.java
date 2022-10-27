@@ -1,4 +1,4 @@
-package com.dfs.dfslineupbuilder;
+package com.dfs.dfslineupbuilder.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dfs.dfslineupbuilder.fragment.LineUpFragment;
+import com.dfs.dfslineupbuilder.R;
 import com.dfs.dfslineupbuilder.fragment.SelectPlayerFragment;
 
 import java.util.ArrayList;

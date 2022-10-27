@@ -10,9 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dfs.dfslineupbuilder.LineUpAdapter;
 import com.dfs.dfslineupbuilder.R;
-import com.dfs.dfslineupbuilder.SelectPlayerAdapter;
+import com.dfs.dfslineupbuilder.adapter.SelectPlayerAdapter;
 
 import java.util.ArrayList;
 

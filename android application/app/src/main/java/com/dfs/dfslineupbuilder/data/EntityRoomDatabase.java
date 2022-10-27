@@ -21,12 +21,13 @@ import com.dfs.dfslineupbuilder.data.model.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Lineup.class, Slate.class, Player.class}, version = 1)
+@Database(entities = {User.class, Lineup.class, Slate.class, Player.class}, version = 2)
 public abstract class EntityRoomDatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract PlayerDao playerDao();
     public abstract SlateDao slateDao();
     public abstract LineupDao lineupDao();
+
 
     //using singleton database
     private static volatile EntityRoomDatabase INSTANCE;
@@ -38,6 +39,7 @@ public abstract class EntityRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     EntityRoomDatabase.class, "entity_database")
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }

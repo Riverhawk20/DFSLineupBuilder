@@ -11,9 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.dfs.dfslineupbuilder.LineUpAdapter;
+import com.dfs.dfslineupbuilder.adapter.LineUpAdapter;
 import com.dfs.dfslineupbuilder.R;
-import com.dfs.dfslineupbuilder.SlateAdapter;
 
 import java.util.ArrayList;
 

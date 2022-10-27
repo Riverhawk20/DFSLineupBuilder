@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dfs.dfslineupbuilder.R;
-import com.dfs.dfslineupbuilder.SlateAdapter;
+import com.dfs.dfslineupbuilder.adapter.SlateAdapter;
 import com.dfs.dfslineupbuilder.viewmodel.SlateViewModel;
 import com.dfs.dfslineupbuilder.data.repository.SlateRepository;
 import com.dfs.dfslineupbuilder.data.model.Slate;

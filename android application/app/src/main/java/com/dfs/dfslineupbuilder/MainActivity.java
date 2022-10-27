@@ -3,11 +3,14 @@ package com.dfs.dfslineupbuilder;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.dfs.dfslineupbuilder.ui.login.LoginActivity;
+import com.dfs.dfslineupbuilder.activity.LoginActivity;
+import com.dfs.dfslineupbuilder.activity.SignupActivity;
+import com.dfs.dfslineupbuilder.activity.UserLandingPageActivity;
 
 
 public class MainActivity extends AppCompatActivity {

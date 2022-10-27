@@ -20,6 +20,9 @@ public interface UserDao {
     @Query("SELECT * FROM user WHERE UserId IN (:userIds)")
     List<User> loadAllByIds(int[] userIds);
 
+    @Query("SELECT * FROM user WHERE email IS (:email) AND passwordHash IS (:password)")
+    LiveData<User> getUserByLogin(String email, String password);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(User user);
 
