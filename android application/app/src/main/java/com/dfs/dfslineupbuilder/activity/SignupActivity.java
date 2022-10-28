@@ -104,7 +104,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
             User newUser = new User(email, passwordHash);
             userViewModel.insert(newUser);
+
+            LoggedInUser.clearLoggedInUser(this.getApplicationContext());
+
             LoggedInUser.setLoggedInUser(this.getApplicationContext(), newUser.UserId);
+            Log.i(TAG, "Logged in user Id: "+LoggedInUser.getLoggedInUser(this.getApplicationContext()));
 
         }catch (NoSuchAlgorithmException e) {
             Toast.makeText(this, "Error: No SHA-256 algorithm found", Toast.LENGTH_SHORT).show();
@@ -118,7 +122,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         Log.i(TAG, "email length "+ email.length());
 
         if(email.length() != 0 && password.length() != 0){
-            //check for valid email
+            //regex to check for valid email string
+            //source: https://stackoverflow.com/questions/624581/what-is-the-best-java-email-address-validation-method
             Pattern rfc2822 = Pattern.compile(
                     "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
             );

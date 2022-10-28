@@ -2,16 +2,13 @@ package com.dfs.dfslineupbuilder.data.repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import com.dfs.dfslineupbuilder.data.EntityRoomDatabase;
 import com.dfs.dfslineupbuilder.data.dao.UserDao;
-import com.dfs.dfslineupbuilder.data.model.LoggedInUser;
 import com.dfs.dfslineupbuilder.data.model.User;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.List;
 

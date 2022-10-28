@@ -14,13 +14,13 @@ public class LoggedInUser {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
     }
 
-    public int getLoggedInUser(Context context){
-        return getSharedPreferences(context).getInt(USER_ID,-1);
+    public static String getLoggedInUser(Context context){
+        return getSharedPreferences(context).getString(USER_ID,"");
     }
 
-    public static void setLoggedInUser(Context context, int userId){
+    public static void setLoggedInUser(Context context, String userId){
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        editor.putString(USER_ID, Integer.toString(userId));
+        editor.putString(USER_ID, userId);
         editor.commit();
     }
 

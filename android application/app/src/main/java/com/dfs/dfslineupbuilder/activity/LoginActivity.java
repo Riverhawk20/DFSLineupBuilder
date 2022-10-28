@@ -61,8 +61,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         Log.i(TAG,"login clicked");
         if(view.getId() == R.id.login){
-            int userId = checkLogin();
-            if(userId > 0){
+            String userId = checkLogin();
+            if(userId.length() > 0){
                 Log.i(TAG, "login success");
                 handleLoginSuccess(userId);
             }else{
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private int checkLogin(){
+    private String checkLogin(){
         String email = emailET.getText().toString();
         String password = passwordET.getText().toString();
         String passwordHash = "";
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 return user.UserId;
             }
         }
-        return -1;
+        return "";
     }
 
     private void handleLoginFail(){
@@ -103,12 +103,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         finish();
     }
 
-    private void handleLoginSuccess(int userId){
+    private void handleLoginSuccess(String userId){
         Toast.makeText(this.getApplicationContext(), "Login Success!", Toast.LENGTH_SHORT).show();
         emailET.setText("");
         passwordET.setText("");
 
+        //clear old logged in user
+        LoggedInUser.clearLoggedInUser(this.getApplicationContext());
+
         LoggedInUser.setLoggedInUser(this.getApplicationContext(), userId);
+        Log.i(TAG, "Logged in user Id: "+LoggedInUser.getLoggedInUser(this.getApplicationContext()));
 
         startActivity(new Intent(this.getApplicationContext(), UserLandingPageActivity.class));
     }
