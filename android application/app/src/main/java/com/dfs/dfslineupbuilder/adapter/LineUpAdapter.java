@@ -41,7 +41,7 @@ public class LineUpAdapter extends RecyclerView.Adapter<LineUpAdapter.LineUpHold
                 bundle.putString("LineUpPlayer",text+" button");
                 SelectPlayerFragment fragment = new SelectPlayerFragment();
                 fragment.setArguments(bundle);
-                fm.beginTransaction().replace(R.id.ContentFragment, fragment).commit();
+                fm.beginTransaction().replace(R.id.ContentFragment, fragment).addToBackStack(null).commit();
             }
         });
     }

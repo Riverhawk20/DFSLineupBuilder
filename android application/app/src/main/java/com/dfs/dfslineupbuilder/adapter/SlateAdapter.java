@@ -1,5 +1,6 @@
 package com.dfs.dfslineupbuilder.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -43,7 +44,7 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SlateHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SlateHolder holder, @SuppressLint("RecyclerView") int position) {
         String text = slates.get(position).SlateName;
         holder.slateText.setText(text==null?"Classic":text);
         holder.slateText.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +55,7 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
                 bundle.putString("slate", text + " button");
                 LineUpFragment fragment = new LineUpFragment();
                 fragment.setArguments(bundle);
-                fm.beginTransaction().replace(R.id.ContentFragment, fragment).commit();
+                fm.beginTransaction().replace(R.id.ContentFragment, fragment).addToBackStack(null).commit();
             }
         });
 

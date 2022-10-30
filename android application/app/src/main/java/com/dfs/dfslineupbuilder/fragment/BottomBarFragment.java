@@ -34,9 +34,9 @@ public class BottomBarFragment extends Fragment  implements View.OnClickListener
         if(v.getId() == R.id.HomeButton){
             fm.beginTransaction().replace(R.id.ContentFragment,new SlateOptionFragment()).commit();
         }else if (v.getId() == R.id.ProfileButton){
-            fm.beginTransaction().replace(R.id.ContentFragment,new ProfileFragment()).commit();
+            fm.beginTransaction().replace(R.id.ContentFragment,new ProfileFragment()).addToBackStack(null).commit();
         }else{
-            fm.beginTransaction().replace(R.id.ContentFragment,new RegulationFragment()).commit();
+            fm.beginTransaction().replace(R.id.ContentFragment,new RegulationFragment()).addToBackStack(null).commit();
         }
     }
 }
