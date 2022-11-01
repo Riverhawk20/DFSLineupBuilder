@@ -16,6 +16,11 @@ import android.view.ViewGroup;
 
 import com.dfs.dfslineupbuilder.R;
 import com.dfs.dfslineupbuilder.adapter.SlateAdapter;
+import com.dfs.dfslineupbuilder.data.EntityRoomDatabase;
+import com.dfs.dfslineupbuilder.data.dao.SlateDao;
+import com.dfs.dfslineupbuilder.data.model.Player;
+import com.dfs.dfslineupbuilder.data.model.SlateTest;
+import com.dfs.dfslineupbuilder.data.repository.PlayerRepository;
 import com.dfs.dfslineupbuilder.viewmodel.SlateViewModel;
 import com.dfs.dfslineupbuilder.data.repository.SlateRepository;
 import com.dfs.dfslineupbuilder.data.model.Slate;
@@ -34,6 +39,7 @@ public class SlateOptionFragment extends Fragment {
     private SlateViewModel slateViewModel;
     private RecyclerView recyclerView;
     private SlateRepository slateRepository;
+    private PlayerRepository playerRepository;
     private SlateAdapter slateAdapter;
     private List<Slate> slateList;
 
@@ -52,12 +58,14 @@ public class SlateOptionFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         slateRepository = new SlateRepository(getActivity().getApplication());
+        playerRepository = new PlayerRepository(getActivity().getApplication());
         slateList = new ArrayList<>();
         slateAdapter = new SlateAdapter(getContext().getApplicationContext(), slateList);
 
         recyclerView.setAdapter(slateAdapter);
         slateViewModel = new ViewModelProvider(this).get(SlateViewModel.class);
-        networkRequest();
+//        networkRequest();
+        slateRepository.getPlayers(76225);
         slateAdapter.setViewModel(slateViewModel);
         slateViewModel.getSlates().observe(getViewLifecycleOwner(), new Observer<List<Slate>>() {
             @Override
@@ -67,25 +75,36 @@ public class SlateOptionFragment extends Fragment {
             }
         });
 
+
         return v;
     }
 
     private void networkRequest(){
 
         APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<List<Slate>> call = apiInterface.getAllSlates();
+        Call<List<SlateTest>> call = apiInterface.getAllSlates();
 
-        call.enqueue(new Callback<List<Slate>>() {
+        call.enqueue(new Callback<List<SlateTest>>() {
             @Override
-            public void onResponse(Call<List<Slate>> call, Response<List<Slate>> response) {
+            public void onResponse(Call<List<SlateTest>> call, Response<List<SlateTest>> response) {
                 if(response.isSuccessful()) {
-                    slateRepository.insert(response.body());
+                    List<Slate> slate = new ArrayList<>();
+                    for (SlateTest s: response.body()) {
+                        for (Player p: s.Players) {
+                            p.SlateId = s.SlateId;
+                        }
+                        playerRepository.insert(s.Players);
+                        Slate sl = new Slate(s.SeasonYear,s.SlateName,s.StartDate,s.Week);
+                        sl.SlateId = s.SlateId;
+                        slate.add(sl);
+                    }
+                    slateRepository.insert(slate);
                     Log.d("slate fragment", "onResponse: "+response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Slate>> call, Throwable t) {
+            public void onFailure(Call<List<SlateTest>> call, Throwable t) {
                 Log.e("slate fragment", "onResponse error", t);
             }
         });

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dfs.dfslineupbuilder.R;
 import com.dfs.dfslineupbuilder.data.model.Slate;
-import com.dfs.dfslineupbuilder.fragment.LineUpFragment;
+import com.dfs.dfslineupbuilder.fragment.CreateLineUpFragment;
 import com.dfs.dfslineupbuilder.viewmodel.SlateViewModel;
 
 import java.util.List;
@@ -47,13 +47,13 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
     public void onBindViewHolder(@NonNull SlateHolder holder, @SuppressLint("RecyclerView") int position) {
         String text = slates.get(position).SlateName;
         holder.slateText.setText(text==null?"Classic":text);
-        holder.slateText.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
                 Bundle bundle = new Bundle();
                 bundle.putString("slate", text + " button");
-                LineUpFragment fragment = new LineUpFragment();
+                CreateLineUpFragment fragment = new CreateLineUpFragment();
                 fragment.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.ContentFragment, fragment).addToBackStack(null).commit();
             }

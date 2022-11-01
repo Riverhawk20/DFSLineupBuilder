@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.dfs.dfslineupbuilder.data.model.Player;
+import com.dfs.dfslineupbuilder.data.model.Slate;
 import com.dfs.dfslineupbuilder.data.model.User;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface PlayerDao {
     List<Player> loadAllByIds(int[] playerIds);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Player... players);
+    void insertAll(List<Player> playerList);
 
     @Delete
     void delete(Player player);

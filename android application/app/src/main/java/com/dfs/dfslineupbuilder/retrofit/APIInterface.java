@@ -1,6 +1,7 @@
 package com.dfs.dfslineupbuilder.retrofit;
 
 import com.dfs.dfslineupbuilder.data.model.Slate;
+import com.dfs.dfslineupbuilder.data.model.SlateTest;
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ public interface APIInterface {
 
     @Headers("x-api-key: FrtvVA8CqB3kl1s2GxSCY2PB4GUQzGIL7cfN56IS")
     @GET("Prod/getslates")
-    Call<List<Slate>> getAllSlates();
+    Call<List<SlateTest>> getAllSlates();
 }

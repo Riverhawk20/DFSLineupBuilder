@@ -1,5 +1,6 @@
 package com.dfs.dfslineupbuilder.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,13 +14,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dfs.dfslineupbuilder.R;
-import com.dfs.dfslineupbuilder.fragment.SelectPlayerFragment;
+import com.dfs.dfslineupbuilder.data.model.Player;
+import com.dfs.dfslineupbuilder.data.model.PlayerPreview;
+import com.dfs.dfslineupbuilder.fragment.SelectPlayersFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LineUpAdapter extends RecyclerView.Adapter<LineUpAdapter.LineUpHolder> {
-    private List<String> slates = new ArrayList<>();
+    private List<PlayerPreview> player = new ArrayList<>();
     private Context context;
     @NonNull
     @Override
@@ -30,16 +33,17 @@ public class LineUpAdapter extends RecyclerView.Adapter<LineUpAdapter.LineUpHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LineUpHolder holder, int position) {
-        String text = slates.get(position);
-        holder.playerFullText.setText(text);
-        holder.playerFullText.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(@NonNull LineUpHolder holder, @SuppressLint("RecyclerView") int position) {
+        holder.playerFullText.setText(player.get(position).Position);
+        holder.playerShortText.setText(player.get(position).PositionPrev);
+        holder.playerCostText.setText(String.valueOf(player.get(position).Salary));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
                 Bundle bundle = new Bundle();
-                bundle.putString("LineUpPlayer",text+" button");
-                SelectPlayerFragment fragment = new SelectPlayerFragment();
+                bundle.putString("LineUpPlayer",player.get(position).Position+" button");
+                SelectPlayersFragment fragment = new SelectPlayersFragment();
                 fragment.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.ContentFragment, fragment).addToBackStack(null).commit();
             }
@@ -48,26 +52,26 @@ public class LineUpAdapter extends RecyclerView.Adapter<LineUpAdapter.LineUpHold
 
     @Override
     public int getItemCount() {
-        return slates.size();
+        return player.size();
     }
 
-    public void setSlates(List<String> slates){
-        List<String> tempSlates = new ArrayList<>();
-        tempSlates.add("Select Quarterback");
-        tempSlates.add("Select Running Back");
-        tempSlates.add("Select Wide Receiver");
-        this.slates = tempSlates;
+    public void setSlates(List<Player> players){
+        player.add(new PlayerPreview("QB", "QuarterBack", 0));
+        player.add(new PlayerPreview("QB", "QuarterBack", 0));
+        player.add(new PlayerPreview("QB", "QuarterBack", 0));
         notifyDataSetChanged();
     }
 
     class LineUpHolder extends RecyclerView.ViewHolder{
         private TextView playerFullText;
         private TextView playerShortText;
+        private TextView playerCostText;
 
         public LineUpHolder(@NonNull View itemView) {
             super(itemView);
             playerFullText = itemView.findViewById(R.id.PlayerFullTxt);
             playerShortText = itemView.findViewById(R.id.PlayerShortTxtId);
+            playerCostText = itemView.findViewById(R.id.PlayerCost);
         }
     }
 }

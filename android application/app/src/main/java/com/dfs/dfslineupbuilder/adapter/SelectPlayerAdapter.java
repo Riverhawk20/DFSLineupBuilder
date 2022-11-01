@@ -7,16 +7,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.dfs.dfslineupbuilder.R;
+import com.dfs.dfslineupbuilder.data.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SelectPlayerAdapter extends RecyclerView.Adapter<SelectPlayerAdapter.SelectPlayerHolder> {
-    private List<String> slates = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
     private Context context;
     @NonNull
     @Override
@@ -28,21 +31,27 @@ public class SelectPlayerAdapter extends RecyclerView.Adapter<SelectPlayerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull SelectPlayerHolder holder, int position) {
-        String text = slates.get(position);
-        holder.playerNameText.setText(text);
+        holder.playerNameText.setText(players.get(position).Name);
+        holder.playerTeamText.setText(players.get(position).Team);
+        holder.playerPositionText.setText(players.get(position).Position);
+        holder.playerOpponentText.setText(players.get(position).Opponent);
+        holder.playerCostText.setText(String.valueOf(players.get(position).Salary));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
+                fm.popBackStack();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return slates.size();
+        return players.size();
     }
 
-    public void setSlates(List<String> slates){
-        List<String> tempSlates = new ArrayList<>();
-        tempSlates.add("Name 1");
-        tempSlates.add("Name 2");
-        tempSlates.add("Name 3");
-        this.slates = tempSlates;
+    public void setSlates(List<Player> players){
+        this.players = players;
         notifyDataSetChanged();
     }
 

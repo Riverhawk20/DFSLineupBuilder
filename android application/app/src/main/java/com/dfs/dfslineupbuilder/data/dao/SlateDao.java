@@ -7,7 +7,9 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.dfs.dfslineupbuilder.data.model.Player;
 import com.dfs.dfslineupbuilder.data.model.Slate;
+import com.dfs.dfslineupbuilder.data.model.SlateWithPlayers;
 import com.dfs.dfslineupbuilder.data.model.User;
 
 import java.util.List;
@@ -24,6 +26,12 @@ public interface SlateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<Slate> slateList);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertPlayer(Player player);
+
     @Delete
     void delete(Slate slate);
+
+    @Query("SELECT * FROM slate WHERE SlateId = :SlateId")
+    LiveData<List<SlateWithPlayers>> getSlateWithPlayer(int SlateId);
 }

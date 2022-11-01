@@ -9,7 +9,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.dfs.dfslineupbuilder.data.EntityRoomDatabase;
 import com.dfs.dfslineupbuilder.data.dao.SlateDao;
+import com.dfs.dfslineupbuilder.data.model.Player;
 import com.dfs.dfslineupbuilder.data.model.Slate;
+import com.dfs.dfslineupbuilder.data.model.SlateWithPlayers;
 import com.dfs.dfslineupbuilder.retrofit.APIClient;
 import com.dfs.dfslineupbuilder.retrofit.APIInterface;
 
@@ -24,6 +26,7 @@ public class SlateRepository {
 
     private static EntityRoomDatabase db;
     private LiveData<List<Slate>> allSlates;
+    private LiveData<List<Player>> allPlayers;
 
     public SlateRepository(Application application){
         db = EntityRoomDatabase.getDatabase(application.getApplicationContext());
@@ -42,6 +45,11 @@ public class SlateRepository {
     public LiveData<List<Slate>> getSlates(){
         Log.i("slate repo", "got slates: "+allSlates.getValue());
         return allSlates;
+    }
+
+    public LiveData<List<SlateWithPlayers>> getPlayers(int SlateId){
+        Log.i("player", "getting player");
+        return db.slateDao().getSlateWithPlayer(SlateId);
     }
 
     static class InsertAsyncTask extends AsyncTask<List<Slate>,Void,Void> {

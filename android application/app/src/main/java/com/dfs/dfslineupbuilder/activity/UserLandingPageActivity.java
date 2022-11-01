@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.dfs.dfslineupbuilder.R;
+import com.dfs.dfslineupbuilder.data.EntityRoomDatabase;
+import com.dfs.dfslineupbuilder.data.dao.SlateDao;
 import com.dfs.dfslineupbuilder.fragment.BottomBarFragment;
 import com.dfs.dfslineupbuilder.fragment.ProfileFragment;
 import com.dfs.dfslineupbuilder.fragment.SlateOptionFragment;
@@ -22,5 +24,6 @@ public class UserLandingPageActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().add(R.id.BottomBarContainer, new BottomBarFragment()).commit();
         fm.beginTransaction().add(R.id.ContentFragment, new SlateOptionFragment()).commit();
+
     }
 }

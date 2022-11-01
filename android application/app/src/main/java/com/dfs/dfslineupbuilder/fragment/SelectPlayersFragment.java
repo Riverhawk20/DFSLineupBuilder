@@ -3,6 +3,7 @@ package com.dfs.dfslineupbuilder.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,10 +13,13 @@ import android.view.ViewGroup;
 
 import com.dfs.dfslineupbuilder.R;
 import com.dfs.dfslineupbuilder.adapter.SelectPlayerAdapter;
+import com.dfs.dfslineupbuilder.data.model.SlateWithPlayers;
+import com.dfs.dfslineupbuilder.data.repository.PlayerRepository;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class SelectPlayerFragment extends Fragment {
+public class SelectPlayersFragment extends Fragment {
+    PlayerRepository playerRepository;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,12 @@ public class SelectPlayerFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         SelectPlayerAdapter adapter = new SelectPlayerAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.setSlates(new ArrayList<>());
+        playerRepository = new PlayerRepository(getActivity().getApplication());
+        playerRepository.getPlayers(76225).observe(getViewLifecycleOwner(), new Observer<List<SlateWithPlayers>>() {
+            @Override
+            public void onChanged(List<SlateWithPlayers> slateWithPlayers) {
+                adapter.setSlates(slateWithPlayers.get(0).players);
+            }});
         return v;
     }
 }

@@ -10,7 +10,7 @@ public class SlateWithPlayers {
     public Slate slate;
     @Relation(
             parentColumn = "SlateId",
-            entityColumn = "PlayerId"
+            entityColumn = "SlateId"
     )
     public List<Player> players;
 }
