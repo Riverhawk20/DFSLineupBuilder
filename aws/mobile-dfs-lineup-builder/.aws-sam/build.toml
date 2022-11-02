@@ -37,4 +37,13 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["WriteUserFunction"]
 
+[function_build_definitions.9d0a4dd9-8932-4865-81b7-9c714c19f9e2]
+codeuri = "E:\\Mobile Apps - DFSLineupBuilder\\aws\\mobile-dfs-lineup-builder\\WriteRegulationsFunction"
+runtime = "java11"
+architecture = "x86_64"
+handler = "slate.App::handleRequest"
+manifest_hash = ""
+packagetype = "Zip"
+functions = ["WriteRegulationsFunction"]
+
 [layer_build_definitions]
