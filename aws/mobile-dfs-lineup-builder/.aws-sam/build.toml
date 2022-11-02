@@ -28,4 +28,13 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["WriteLineupsFunction"]
 
+[function_build_definitions.2a21e81c-c485-4175-9a4c-349603fdaffc]
+codeuri = "E:\\Mobile Apps - DFSLineupBuilder\\aws\\mobile-dfs-lineup-builder\\WriteUserFunction"
+runtime = "java11"
+architecture = "x86_64"
+handler = "slate.App::handleRequest"
+manifest_hash = ""
+packagetype = "Zip"
+functions = ["WriteUserFunction"]
+
 [layer_build_definitions]

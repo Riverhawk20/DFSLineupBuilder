@@ -13,9 +13,6 @@ Globals:
 Resources:
   WriteSlateDataFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Policies:
-      DynamoDBWritePolicy:
-        TableName: !Ref SlateTable
     Properties:
       CodeUri: GetSlateDataFunction
       Handler: slate.App::handleRequest
@@ -26,17 +23,33 @@ Resources:
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
+      Policies:
+        DynamoDBWritePolicy:
+          TableName: !Ref SlateTable
       Events:
         InvocationLevel:
           Type: Schedule
           Properties:
             Schedule: cron(0 5 * * ? *)
 
+  SlateTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: dfs-lineup-builder-slate
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: SlateId
+          AttributeType: S
+        - AttributeName: StartDate
+          AttributeType: S
+      KeySchema:
+        - AttributeName: SlateId
+          KeyType: HASH
+        - AttributeName: StartDate
+          KeyType: RANGE
+
   QuerySlateDataFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Policies:
-      DynamoDBReadPolicy:
-        TableName: !Ref SlateTable
     Properties:
       CodeUri: QuerySlateDataFunction
       Handler: slate.App::handleRequest
@@ -47,6 +60,9 @@ Resources:
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
+      Policies:
+        DynamoDBReadPolicy:
+          TableName: !Ref SlateTable
       Events:
         QuerySlateDataEvent:
           Type: Api
@@ -71,9 +87,6 @@ Resources:
 
   WriteLineupsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Policies:
-      DynamoDBReadPolicy:
-        TableName: !Ref LineupTable
     Properties:
       CodeUri: WriteLineupsFunction
       Handler: slate.App::handleRequest
@@ -84,6 +97,9 @@ Resources:
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
+      Policies:
+        DynamoDBWritePolicy:
+          TableName: !Ref LineupTable
       Events:
         QuerySlateDataEvent:
           Type: Api
@@ -106,22 +122,6 @@ Resources:
             Limit: 500
             Period: DAY
 
-  SlateTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: dfs-lineup-builder-slate
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: SlateId
-          AttributeType: S
-        - AttributeName: StartDate
-          AttributeType: S
-      KeySchema:
-        - AttributeName: SlateId
-          KeyType: HASH
-        - AttributeName: StartDate
-          KeyType: RANGE
-
   LineupTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -137,3 +137,52 @@ Resources:
           KeyType: HASH
         - AttributeName: UserId
           KeyType: RANGE
+
+  WriteUserFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: WriteUserFunction
+      Handler: slate.App::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
+      Policies:
+        DynamoDBWritePolicy:
+          TableName: !Ref UserTable
+      Events:
+        QuerySlateDataEvent:
+          Type: Api
+          Properties:
+            Path: /writeuser
+            Method: POST
+            RestApiId:
+              Ref: WriteUserApi
+
+  WriteUserApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Name: WriteUserApi
+      Auth:
+        ApiKeyRequired: true
+        UsagePlan:
+          CreateUsagePlan: PER_API
+          Quota:
+            Limit: 500
+            Period: DAY
+
+  UserTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: dfs-lineup-builder-users
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: UserId
+          AttributeType: N
+      KeySchema:
+        - AttributeName: UserId
+          KeyType: HASH
