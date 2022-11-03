@@ -29,10 +29,13 @@ public class CreateLineUpFragment extends Fragment {
     TextView positionFilled;
     PlayerRepository playerRepository;
     LineUpViewModel lineUpViewModel;
+    int slateId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle b = this.getArguments();
+        slateId = b.getInt("slate");
     }
 
     @Override
@@ -46,6 +49,7 @@ public class CreateLineUpFragment extends Fragment {
         LineUpAdapter adapter = new LineUpAdapter();
         recyclerView.setAdapter(adapter);
         adapter.setSlates(new ArrayList<>());
+        adapter.setSlateId(slateId);
 
         lineUpViewModel = new ViewModelProvider(this).get(LineUpViewModel.class);
 

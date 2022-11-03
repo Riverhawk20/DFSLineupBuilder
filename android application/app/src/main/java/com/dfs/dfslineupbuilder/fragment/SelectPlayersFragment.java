@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,13 @@ import java.util.List;
 
 public class SelectPlayersFragment extends Fragment {
     PlayerRepository playerRepository;
+    int slateId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle b = this.getArguments();
+        slateId = b.getInt("slate");
     }
 
     @Override
@@ -36,7 +40,8 @@ public class SelectPlayersFragment extends Fragment {
         SelectPlayerAdapter adapter = new SelectPlayerAdapter();
         recyclerView.setAdapter(adapter);
         playerRepository = new PlayerRepository(getActivity().getApplication());
-        playerRepository.getPlayers(76225).observe(getViewLifecycleOwner(), new Observer<List<SlateWithPlayers>>() {
+        Log.d("slate", "getting player from slate id "+slateId);
+        playerRepository.getPlayers(slateId).observe(getViewLifecycleOwner(), new Observer<List<SlateWithPlayers>>() {
             @Override
             public void onChanged(List<SlateWithPlayers> slateWithPlayers) {
                 adapter.setSlates(slateWithPlayers.get(0).players);

@@ -64,8 +64,7 @@ public class SlateOptionFragment extends Fragment {
 
         recyclerView.setAdapter(slateAdapter);
         slateViewModel = new ViewModelProvider(this).get(SlateViewModel.class);
-//        networkRequest();
-        slateRepository.getPlayers(76225);
+   //     networkRequest();
         slateAdapter.setViewModel(slateViewModel);
         slateViewModel.getSlates().observe(getViewLifecycleOwner(), new Observer<List<Slate>>() {
             @Override

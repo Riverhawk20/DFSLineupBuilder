@@ -52,7 +52,7 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
             public void onClick(View view) {
                 FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
                 Bundle bundle = new Bundle();
-                bundle.putString("slate", text + " button");
+                bundle.putInt("slate", slates.get(holder.getLayoutPosition()).SlateId);
                 CreateLineUpFragment fragment = new CreateLineUpFragment();
                 fragment.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.ContentFragment, fragment).addToBackStack(null).commit();

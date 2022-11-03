@@ -24,12 +24,17 @@ import java.util.List;
 public class LineUpAdapter extends RecyclerView.Adapter<LineUpAdapter.LineUpHolder> {
     private List<PlayerPreview> player = new ArrayList<>();
     private Context context;
+    private int slateId;
     @NonNull
     @Override
     public LineUpHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_select_card,parent,false);
         this.context = parent.getContext();
         return new LineUpHolder(itemView);
+    }
+
+    public void setSlateId(int id){
+        slateId = id;
     }
 
     @Override
@@ -42,7 +47,7 @@ public class LineUpAdapter extends RecyclerView.Adapter<LineUpAdapter.LineUpHold
             public void onClick(View view) {
                 FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
                 Bundle bundle = new Bundle();
-                bundle.putString("LineUpPlayer",player.get(position).Position+" button");
+                bundle.putInt("slate",slateId);
                 SelectPlayersFragment fragment = new SelectPlayersFragment();
                 fragment.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.ContentFragment, fragment).addToBackStack(null).commit();
