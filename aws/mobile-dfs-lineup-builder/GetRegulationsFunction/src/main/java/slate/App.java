@@ -54,34 +54,32 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                 .withHeaders(headers);
         try {
             ArrayList<Regulations> regulations = getRegulationData();
-            ArrayList<Item> writeItems = new ArrayList<Item>();
-            for (Regulations regulation : regulations) {
-                System.out.println(regulation.IsLegal + " " + regulation.StateName);
-                writeItems.add(new Item()
+            // split states into two lists since a batch write is limited to 25 items
+            // (51 Regulations with DC)
+            ArrayList<Item> writeItemsFirst25 = new ArrayList<Item>();
+            ArrayList<Item> writeItemsMiddle25 = new ArrayList<Item>();
+            ArrayList<Item> writeItemsLast25 = new ArrayList<Item>();
+            for (int i = 0; i < regulations.size(); i++) {
+                Regulations regulation = regulations.get(i);
+                Item item = new Item()
                         .withPrimaryKey("StateName", regulation.StateName)
-                        .withBoolean("IsLegal", regulation.IsLegal));
+                        .withBoolean("IsLegal", regulation.IsLegal);
+                if (i < 25) {
+                    writeItemsFirst25.add(item);
+                } else if (i < 50) {
+                    writeItemsMiddle25.add(item);
+                } else {
+                    writeItemsLast25.add(item);
+                }
             }
-            TableWriteItems tableWriteItems = new TableWriteItems(DYNAMODB_TABLE_NAME).withItemsToPut(writeItems);
+
+            // write items to DynamoDB
             AmazonDynamoDBClient clientShell = new AmazonDynamoDBClient();
             clientShell.setRegion(Region.getRegion(REGION));
             DynamoDB dbClient = new DynamoDB(clientShell);
-            BatchWriteItemOutcome outcome = dbClient.batchWriteItem(tableWriteItems);
-            do {
-
-                // Check for unprocessed keys which could happen if you exceed
-                // provisioned throughput
-
-                Map<String, List<WriteRequest>> unprocessedItems = outcome.getUnprocessedItems();
-
-                if (outcome.getUnprocessedItems().size() == 0) {
-                    System.out.println("No unprocessed items found");
-                } else {
-                    System.out.println("Retrieving the unprocessed items");
-                    outcome = dbClient.batchWriteItemUnprocessed(unprocessedItems);
-                }
-
-            } while (outcome.getUnprocessedItems().size() > 0);
-
+            writeRegulationDataToDynamoDB(writeItemsFirst25, dbClient);
+            writeRegulationDataToDynamoDB(writeItemsMiddle25, dbClient);
+            writeRegulationDataToDynamoDB(writeItemsLast25, dbClient);
             return response
                     .withStatusCode(200)
                     .withBody("Success!");
@@ -93,13 +91,34 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
         }
     }
 
+    public void writeRegulationDataToDynamoDB(ArrayList<Item> writeItems, DynamoDB dbClient) {
+        TableWriteItems tableWriteItems = new TableWriteItems(DYNAMODB_TABLE_NAME).withItemsToPut(writeItems);
+        BatchWriteItemOutcome outcome = dbClient.batchWriteItem(tableWriteItems);
+        do {
+            // Check for unprocessed keys which could happen if you exceed
+            // provisioned throughput
+
+            Map<String, List<WriteRequest>> unprocessedItems = outcome.getUnprocessedItems();
+
+            if (outcome.getUnprocessedItems().size() == 0) {
+                System.out.println("No unprocessed items found");
+            } else {
+                System.out.println("Retrieving the unprocessed items");
+                outcome = dbClient.batchWriteItemUnprocessed(unprocessedItems);
+            }
+
+        } while (outcome.getUnprocessedItems().size() > 0);
+    }
+
     public ArrayList<Regulations> getRegulationData() {
         try {
+            // get html from action network (a well maintained up to date page)
             Document doc = Jsoup.connect(
                     "https://www.actionnetwork.com/legal-online-sports-betting/where-is-daily-fantasy-sports-legal")
                     .get();
             ArrayList<Regulations> regulations = new ArrayList<Regulations>();
-            Elements regulationsElements = doc.select(".article-view__table-container tr");
+            // get DraftKings regulations for DFS for each slate by scraping the table
+            Elements regulationsElements = doc.select(".article-view__table-container tbody tr");
             for (Element regulationRow : regulationsElements) {
                 String state = regulationRow.select("td:nth-child(1)").text();
                 boolean isLegal = regulationRow.select("td:nth-child(2)").text() == "✓";
