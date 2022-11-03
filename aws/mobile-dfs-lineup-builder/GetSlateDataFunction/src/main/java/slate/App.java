@@ -129,7 +129,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                             players.add(
                                     new Player(draftable.draftableId, draftable.displayName, draftable.position,
                                             draftable.teamAbbreviation,
-                                            opponent, draftable.salary));
+                                            opponent, draftable.salary, draftGroup.DraftGroupId));
                         }
                     }
                     // build slate object and add to list
