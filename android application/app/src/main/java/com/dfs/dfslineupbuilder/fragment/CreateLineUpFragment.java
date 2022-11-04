@@ -1,8 +1,13 @@
 package com.dfs.dfslineupbuilder.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,12 +17,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dfs.dfslineupbuilder.adapter.LineUpAdapter;
 import com.dfs.dfslineupbuilder.R;
+import com.dfs.dfslineupbuilder.data.model.Player;
 import com.dfs.dfslineupbuilder.data.model.SlateWithPlayers;
 import com.dfs.dfslineupbuilder.data.repository.PlayerRepository;
 import com.dfs.dfslineupbuilder.viewmodel.LineUpViewModel;
+import com.dfs.dfslineupbuilder.viewmodel.SharedHelperViewModel;
 import com.dfs.dfslineupbuilder.viewmodel.SlateViewModel;
 
 import java.util.ArrayList;
@@ -30,6 +38,7 @@ public class CreateLineUpFragment extends Fragment {
     PlayerRepository playerRepository;
     LineUpViewModel lineUpViewModel;
     int slateId;
+    SharedHelperViewModel sharedHelperViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,16 +51,22 @@ public class CreateLineUpFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        lineUpViewModel = new ViewModelProvider(this).get(LineUpViewModel.class);
         View v = inflater.inflate(R.layout.fragment_line_up, container, false);
         RecyclerView recyclerView = v.findViewById(R.id.LineUpContainerLayout);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         LineUpAdapter adapter = new LineUpAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.setSlates(new ArrayList<>());
-        adapter.setSlateId(slateId);
 
-        lineUpViewModel = new ViewModelProvider(this).get(LineUpViewModel.class);
+        lineUpViewModel.getPlayerLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Player>>() {
+            @Override
+            public void onChanged(ArrayList<Player> players) {
+                adapter.setLineup(players);
+            }
+        });
+
+
 
         balanceText = v.findViewById(R.id.BalanceTxt);
         positionFilled = v.findViewById(R.id.PositionFilledTxt);
@@ -69,6 +84,34 @@ public class CreateLineUpFragment extends Fragment {
                 positionFilled.setText("Position: "+integer+"/"+9);
             }
         });
+
+        getParentFragmentManager().setFragmentResultListener("playerData", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                Toast.makeText((Context) getActivity(), result.getString(requestKey), Toast.LENGTH_LONG).show();
+            }
+        });
+        sharedHelperViewModel = new ViewModelProvider(getActivity()).get(SharedHelperViewModel.class);
+        sharedHelperViewModel.getSelectedPlayer().observe(getViewLifecycleOwner(), new Observer<Player>() {
+            @Override
+            public void onChanged(Player player) {
+                if (sharedHelperViewModel.getIndex().getValue() != -1){
+                    if(lineUpViewModel.setPlayerOnLineUp(player, sharedHelperViewModel.getIndex().getValue())){
+                        Toast.makeText(getContext(),"Player Added", Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        Toast.makeText(getContext(),"Cannot add player", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        adapter.setValues(slateId, sharedHelperViewModel);
         return v;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        sharedHelperViewModel.setIndex(-1);
     }
 }

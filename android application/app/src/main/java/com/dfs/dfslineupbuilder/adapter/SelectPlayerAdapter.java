@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dfs.dfslineupbuilder.R;
 import com.dfs.dfslineupbuilder.data.model.Player;
+import com.dfs.dfslineupbuilder.viewmodel.SharedHelperViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
 public class SelectPlayerAdapter extends RecyclerView.Adapter<SelectPlayerAdapter.SelectPlayerHolder> {
     private List<Player> players = new ArrayList<>();
     private Context context;
+    private SharedHelperViewModel sharedHelperViewModel;
     @NonNull
     @Override
     public SelectPlayerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,9 +42,14 @@ public class SelectPlayerAdapter extends RecyclerView.Adapter<SelectPlayerAdapte
             @Override
             public void onClick(View view) {
                 FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
+                sharedHelperViewModel.setSelectedPlayer(players.get(holder.getLayoutPosition()));
                 fm.popBackStack();
             }
         });
+    }
+
+    public void setValues(SharedHelperViewModel vm){
+        sharedHelperViewModel = vm;
     }
 
     @Override

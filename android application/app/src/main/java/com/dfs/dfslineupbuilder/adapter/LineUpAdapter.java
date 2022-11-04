@@ -11,20 +11,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dfs.dfslineupbuilder.R;
 import com.dfs.dfslineupbuilder.data.model.Player;
 import com.dfs.dfslineupbuilder.data.model.PlayerPreview;
 import com.dfs.dfslineupbuilder.fragment.SelectPlayersFragment;
+import com.dfs.dfslineupbuilder.viewmodel.SharedHelperViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LineUpAdapter extends RecyclerView.Adapter<LineUpAdapter.LineUpHolder> {
-    private List<PlayerPreview> player = new ArrayList<>();
+public class LineUpAdapter extends RecyclerView.Adapter<LineUpAdapter.LineUpHolder>{
+    private List<Player> player = new ArrayList<>();
     private Context context;
     private int slateId;
+    private SharedHelperViewModel sharedHelperViewModel;
     @NonNull
     @Override
     public LineUpHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,14 +36,15 @@ public class LineUpAdapter extends RecyclerView.Adapter<LineUpAdapter.LineUpHold
         return new LineUpHolder(itemView);
     }
 
-    public void setSlateId(int id){
+    public void setValues(int id, SharedHelperViewModel vm){
         slateId = id;
+        sharedHelperViewModel = vm;
     }
 
     @Override
     public void onBindViewHolder(@NonNull LineUpHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.playerFullText.setText(player.get(position).Position);
-        holder.playerShortText.setText(player.get(position).PositionPrev);
+        holder.playerFullText.setText(player.get(position).Name);
+        holder.playerShortText.setText(player.get(position).Position);
         holder.playerCostText.setText(String.valueOf(player.get(position).Salary));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +52,9 @@ public class LineUpAdapter extends RecyclerView.Adapter<LineUpAdapter.LineUpHold
                 FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
                 Bundle bundle = new Bundle();
                 bundle.putInt("slate",slateId);
+                bundle.putString("position", player.get(holder.getLayoutPosition()).Position);
                 SelectPlayersFragment fragment = new SelectPlayersFragment();
+                sharedHelperViewModel.setIndex(position);
                 fragment.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.ContentFragment, fragment).addToBackStack(null).commit();
             }
@@ -60,10 +66,8 @@ public class LineUpAdapter extends RecyclerView.Adapter<LineUpAdapter.LineUpHold
         return player.size();
     }
 
-    public void setSlates(List<Player> players){
-        player.add(new PlayerPreview("QB", "QuarterBack", 0));
-        player.add(new PlayerPreview("QB", "QuarterBack", 0));
-        player.add(new PlayerPreview("QB", "QuarterBack", 0));
+    public void setLineup(List<Player> players){
+        player = players;
         notifyDataSetChanged();
     }
 
