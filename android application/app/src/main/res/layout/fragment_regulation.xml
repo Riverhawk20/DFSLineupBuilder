@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.348">
 
         <TextView
-            android:id="@+id/UserName"
+            android:id="@+id/StateRegulationTV"
             android:layout_width="254dp"
             android:layout_height="219dp"
             android:layout_gravity="center_horizontal"
