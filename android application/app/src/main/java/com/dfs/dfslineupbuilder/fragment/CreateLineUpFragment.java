@@ -52,6 +52,7 @@ public class CreateLineUpFragment extends Fragment {
             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         lineUpViewModel = new ViewModelProvider(this).get(LineUpViewModel.class);
+        lineUpViewModel.setSlateId(slateId);
         View v = inflater.inflate(R.layout.fragment_line_up, container, false);
         RecyclerView recyclerView = v.findViewById(R.id.LineUpContainerLayout);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -103,6 +104,18 @@ public class CreateLineUpFragment extends Fragment {
                         Toast.makeText(getContext(),"Cannot add player", Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });
+
+        v.findViewById(R.id.saveLineupBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(lineUpViewModel.saveLineup()){
+                    Toast.makeText(getContext(),"Lineup Saved!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getContext(),"Lineup cannot be saved, fill in the rest of the players", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         adapter.setValues(slateId, sharedHelperViewModel);

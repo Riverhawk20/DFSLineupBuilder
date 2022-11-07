@@ -11,16 +11,28 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.dfs.dfslineupbuilder.data.model.Lineup;
 import com.dfs.dfslineupbuilder.data.model.Player;
+import com.dfs.dfslineupbuilder.data.model.SavedPlayer;
+import com.dfs.dfslineupbuilder.data.model.SavedSlate;
+import com.dfs.dfslineupbuilder.data.model.Slate;
 import com.dfs.dfslineupbuilder.data.model.User;
+import com.dfs.dfslineupbuilder.data.repository.SavedPlayerRepository;
+import com.dfs.dfslineupbuilder.data.repository.SavedSlateRepository;
+import com.dfs.dfslineupbuilder.data.repository.SlateRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class LineUpViewModel extends AndroidViewModel {
     private MutableLiveData<Integer> balanceLiveData = new MutableLiveData<>(50000);
     private MutableLiveData<Integer> positionFilledLiveData = new MutableLiveData<>(0);
     private MutableLiveData<ArrayList<Player>> Players = new MutableLiveData<>(new ArrayList<>());
+    private SavedSlateRepository savedSlateRepository;
+    private SlateRepository slateRepository;
+    private SavedPlayerRepository savedPlayerRepository;
+    private int currentSlateId;
+    private Slate currentSlate;
 
     public LineUpViewModel(@NonNull Application application) {
         super(application);
@@ -31,8 +43,17 @@ public class LineUpViewModel extends AndroidViewModel {
         Players.getValue().add(new Player("Wide Receive", "WR","","",0,0,0));
         Players.getValue().add(new Player("Wide Receive", "WR","","",0,0,0));
         Players.getValue().add(new Player("Tight Ends", "TE","","",0,0,0));
-        Players.getValue().add(new Player("FLEX", "FLEX","","",0,0,0));
+        Players.getValue().add(new Player("FLEX", "RB","","",0,0,0));
         Players.getValue().add(new Player("Defense", "DST","","",0,0,0));
+        savedSlateRepository = new SavedSlateRepository(application);
+        savedPlayerRepository = new SavedPlayerRepository(application);
+        slateRepository = new SlateRepository(application);
+        currentSlate = slateRepository.getSlate(76927);
+    }
+
+    public void setSlateId(int id){
+        currentSlateId = id;
+        currentSlate = slateRepository.getSlate(currentSlateId);
     }
 
     public MutableLiveData<Integer> getBalanceLiveData(){
@@ -59,6 +80,25 @@ public class LineUpViewModel extends AndroidViewModel {
             positionFilledLiveData.setValue(Players.getValue().stream().filter(p1->p1.SlateId != 0).collect(Collectors.toList()).size());
         }
         return val;
+    }
+
+    public boolean saveLineup(){
+        if(this.positionFilledLiveData.getValue() < 9){
+            return false;
+        }
+        int id = new Random().nextInt(9999999);
+        List<SavedPlayer> list = new ArrayList<>();
+        List<Player> p = Players.getValue();
+        for(Player x: p){
+            list.add(new SavedPlayer(x.PlayerId+id, x.Name,x.Position,x.Team,x.Opponent,x.Salary,x.FantasyPoints,x.SlateId,id));
+        }
+        SavedSlate s = new SavedSlate(id,currentSlate.SeasonYear, currentSlate.SlateName, currentSlate.StartDate, currentSlate.Week);
+        savedPlayerRepository.insert(list);
+        List<SavedSlate> l = new ArrayList<>();
+        l.add(s);
+        savedSlateRepository.insert(l);
+
+        return true;
     }
 
 }

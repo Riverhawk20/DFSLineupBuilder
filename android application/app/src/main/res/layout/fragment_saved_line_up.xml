@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.SlateOptionFragment">
+    tools:context=".fragment.SavedLineUpFragment">
 
     <TextView
-        android:id="@+id/Title"
-        android:layout_width="282dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="28dp"
-        android:text="Choose a slate"
+        android:id="@+id/SavedLineUpTitle"
+        android:layout_width="224dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:text="Saved Lineup"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="34sp"
@@ -21,30 +21,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:id="@+id/LineUpContainer"
-        android:layout_width="370dp"
-        android:layout_height="510dp"
+        android:id="@+id/SavedLineUpContainer"
+        android:layout_width="412dp"
+        android:layout_height="520dp"
         android:background="#d9d9d9"
         android:contentDescription="All Slate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Title"
-        app:layout_constraintVertical_bias="0.176">
+        app:layout_constraintTop_toBottomOf="@+id/SavedLineUpTitle"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/SlateContainer"
-            android:layout_width="370dp"
-            android:layout_height="500dp"
-            android:layout_marginTop="24dp"
-            android:background="#d9d9d9"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Title"
-            app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/slate"></androidx.recyclerview.widget.RecyclerView>
+            android:id="@+id/SavedLineUpContainerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:listitem="@layout/player_select_card"></androidx.recyclerview.widget.RecyclerView>
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
