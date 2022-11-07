@@ -11,22 +11,28 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.dfs.dfslineupbuilder.data.dao.LineupDao;
 import com.dfs.dfslineupbuilder.data.dao.PlayerDao;
+import com.dfs.dfslineupbuilder.data.dao.SavedPlayerDao;
+import com.dfs.dfslineupbuilder.data.dao.SavedSlateDao;
 import com.dfs.dfslineupbuilder.data.dao.SlateDao;
 import com.dfs.dfslineupbuilder.data.dao.UserDao;
 import com.dfs.dfslineupbuilder.data.model.Lineup;
 import com.dfs.dfslineupbuilder.data.model.Player;
+import com.dfs.dfslineupbuilder.data.model.SavedPlayer;
+import com.dfs.dfslineupbuilder.data.model.SavedSlate;
 import com.dfs.dfslineupbuilder.data.model.Slate;
 import com.dfs.dfslineupbuilder.data.model.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Lineup.class, Slate.class, Player.class}, version = 4)
+@Database(entities = {User.class, Lineup.class, Slate.class, Player.class, SavedSlate.class, SavedPlayer.class}, version = 6)
 public abstract class EntityRoomDatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract PlayerDao playerDao();
     public abstract SlateDao slateDao();
     public abstract LineupDao lineupDao();
+    public abstract SavedPlayerDao savedPlayerDao();
+    public abstract SavedSlateDao savedSlateDao();
 
 
     //using singleton database

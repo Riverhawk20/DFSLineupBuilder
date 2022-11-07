@@ -8,8 +8,8 @@
 
     <TextView
         android:id="@+id/LineUpTitle"
-        android:layout_width="282dp"
-        android:layout_height="52dp"
+        android:layout_width="224dp"
+        android:layout_height="45dp"
         android:layout_marginTop="16dp"
         android:text="Create Lineup"
         android:textAlignment="center"
@@ -69,5 +69,17 @@
             android:text="Balance"
             android:textAlignment="center"
             android:textSize="20dp" />
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/saveLineupBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="16dp"
+        android:text="Save"
+        app:layout_constraintStart_toEndOf="@+id/LineUpTitle"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
