@@ -25,7 +25,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dfs.dfslineupbuilder.R;
-import com.dfs.dfslineupbuilder.data.EntityRoomDatabase;
+import com.dfs.dfslineupbuilder.data.model.Regulation;
+import com.dfs.dfslineupbuilder.retrofit.APIClient;
+import com.dfs.dfslineupbuilder.retrofit.APIInterface;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -39,6 +41,10 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 ///**
 // * A simple {@link Fragment} subclass.
@@ -86,7 +92,7 @@ public class RegulationFragment extends Fragment {
 
     int PERMISSION_ID = 44;
     FusedLocationProviderClient fusedLocationProviderClient;
-    TextView regulationTV;
+    static TextView regulationTV;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -125,10 +131,7 @@ public class RegulationFragment extends Fragment {
                             requestNewLocationData();
                         } else {
                             //handle location
-                            List<Double> coordinates = new ArrayList<>();
-                            coordinates.add(location.getLatitude());
-                            coordinates.add(location.getLongitude());
-                            new GeocoderAsyncTask(ctx, regulationTV).execute(coordinates);
+                            reverseGeocode(location);
                         }
                     }
                 });
@@ -138,6 +141,13 @@ public class RegulationFragment extends Fragment {
         } else {
             requestPermissions();
         }
+    }
+
+    private void reverseGeocode(Location location) {
+        List<Double> coordinates = new ArrayList<>();
+        coordinates.add(location.getLatitude());
+        coordinates.add(location.getLongitude());
+        new GeocoderAsyncTask(ctx, regulationTV).execute(coordinates);
     }
 
     @SuppressLint("MissingPermission")
@@ -161,14 +171,9 @@ public class RegulationFragment extends Fragment {
 
         @Override
         public void onLocationResult(LocationResult locationResult) {
-            Location mLastLocation = locationResult.getLastLocation();
+            Location lastLocation = locationResult.getLastLocation();
             //handle location
-
-            List<Double> coordinates = new ArrayList<>();
-            coordinates.add(mLastLocation.getLatitude());
-            coordinates.add(mLastLocation.getLongitude());
-            new GeocoderAsyncTask(ctx, regulationTV).execute(coordinates);
-
+            reverseGeocode(lastLocation);
         }
     };
 
@@ -195,6 +200,38 @@ public class RegulationFragment extends Fragment {
             }
         }
     }
+
+    private static void networkRequest(String state){
+
+        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<List<Regulation>> call = apiInterface.getStateRegulation("https://p5w0cm320i.execute-api.us-east-1.amazonaws.com/Prod/getregulations");
+
+        call.enqueue(new Callback<List<Regulation>>() {
+            @Override
+            public void onResponse(Call<List<Regulation>> call, Response<List<Regulation>> response) {
+                if(response.isSuccessful() && response.body() != null) {
+                    for (Regulation r: response.body()){
+                        if(r.StateName.equals(state)){
+                            if(r.IsLegal){
+                                regulationTV.setText("Sports betting is legal in "+r.StateName);
+                            }else{
+                                regulationTV.setText("Sports betting is not legal in "+r.StateName);
+                            }
+                        }
+                    }
+                }else{
+                    regulationTV.setText("Error fetching sports betting regulation for " + state);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Regulation>> call, Throwable t) {
+                Log.e("slate fragment", "onResponse error", t);
+            }
+        });
+
+    }
+
 
     static class GeocoderAsyncTask extends AsyncTask<List<Double>, Void, Address>{
 
@@ -233,10 +270,9 @@ public class RegulationFragment extends Fragment {
                 // remember to check first that it's not null
 
                 if(address != null) {
-                    Log.i(TAG, "address: " + address.toString());
-                    regulationTV.setText("You are in: " + address.getAdminArea());
+                    networkRequest(address.getAdminArea());
                 }else{
-                    regulationTV.setText("Error getting location");
+                    regulationTV.setText("Unable to find user location");
                 }
             }
         }

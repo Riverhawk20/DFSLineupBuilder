@@ -64,7 +64,7 @@ public class SlateOptionFragment extends Fragment {
 
         recyclerView.setAdapter(slateAdapter);
         slateViewModel = new ViewModelProvider(this).get(SlateViewModel.class);
-   //     networkRequest();
+        //networkRequest();
         slateAdapter.setViewModel(slateViewModel);
         slateViewModel.getSlates().observe(getViewLifecycleOwner(), new Observer<List<Slate>>() {
             @Override
@@ -81,7 +81,7 @@ public class SlateOptionFragment extends Fragment {
     private void networkRequest(){
 
         APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<List<SlateTest>> call = apiInterface.getAllSlates();
+        Call<List<SlateTest>> call = apiInterface.getAllSlates("https://qkjpmd9d09.execute-api.us-east-1.amazonaws.com/Prod/getslates");
 
         call.enqueue(new Callback<List<SlateTest>>() {
             @Override
@@ -99,6 +99,8 @@ public class SlateOptionFragment extends Fragment {
                     }
                     slateRepository.insert(slate);
                     Log.d("slate fragment", "onResponse: "+response.body());
+                }else{
+                    Log.d("slate fragment", "slate network call fail");
                 }
             }
 
