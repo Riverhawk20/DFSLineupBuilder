@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import com.dfs.dfslineupbuilder.LoggedInUser;
 import com.dfs.dfslineupbuilder.data.EntityRoomDatabase;
 import com.dfs.dfslineupbuilder.data.dao.SavedSlateDao;
 import com.dfs.dfslineupbuilder.data.model.Player;
@@ -24,7 +25,7 @@ public class SavedSlateRepository {
 
     public SavedSlateRepository(Application application){
         db = EntityRoomDatabase.getDatabase(application.getApplicationContext());
-        allSlates = db.savedSlateDao().getAll();
+        allSlates = db.savedSlateDao().getAll(LoggedInUser.getLoggedInUser(application.getApplicationContext()));
     }
 
     public void insert(List<SavedSlate> slateList){

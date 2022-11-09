@@ -51,7 +51,7 @@ public class SlateOptionFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_slate_option, container, false);
         recyclerView = v.findViewById(R.id.SlateContainer);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext().getApplicationContext()));
@@ -64,7 +64,7 @@ public class SlateOptionFragment extends Fragment {
 
         recyclerView.setAdapter(slateAdapter);
         slateViewModel = new ViewModelProvider(this).get(SlateViewModel.class);
-        //networkRequest();
+        // networkRequest();
         slateAdapter.setViewModel(slateViewModel);
         slateViewModel.getSlates().observe(getViewLifecycleOwner(), new Observer<List<Slate>>() {
             @Override
@@ -74,32 +74,32 @@ public class SlateOptionFragment extends Fragment {
             }
         });
 
-
         return v;
     }
 
-    private void networkRequest(){
+    private void networkRequest() {
 
         APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<List<SlateTest>> call = apiInterface.getAllSlates("https://qkjpmd9d09.execute-api.us-east-1.amazonaws.com/Prod/getslates");
+        Call<List<SlateTest>> call = apiInterface
+                .getAllSlates("https://qkjpmd9d09.execute-api.us-east-1.amazonaws.com/Prod/getslates");
 
         call.enqueue(new Callback<List<SlateTest>>() {
             @Override
             public void onResponse(Call<List<SlateTest>> call, Response<List<SlateTest>> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     List<Slate> slate = new ArrayList<>();
-                    for (SlateTest s: response.body()) {
-                        for (Player p: s.Players) {
+                    for (SlateTest s : response.body()) {
+                        for (Player p : s.Players) {
                             p.SlateId = s.SlateId;
                         }
                         playerRepository.insert(s.Players);
-                        Slate sl = new Slate(s.SeasonYear,s.SlateName,s.StartDate,s.Week);
+                        Slate sl = new Slate(s.SeasonYear, s.SlateName, s.StartDate, s.Week);
                         sl.SlateId = s.SlateId;
                         slate.add(sl);
                     }
                     slateRepository.insert(slate);
-                    Log.d("slate fragment", "onResponse: "+response.body());
-                }else{
+                    Log.d("slate fragment", "onResponse: " + response.body());
+                } else {
                     Log.d("slate fragment", "slate network call fail");
                 }
             }

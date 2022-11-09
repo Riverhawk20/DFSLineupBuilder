@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.dfs.dfslineupbuilder.LoggedInUser;
 import com.dfs.dfslineupbuilder.data.model.Lineup;
 import com.dfs.dfslineupbuilder.data.model.Player;
 import com.dfs.dfslineupbuilder.data.model.SavedPlayer;
@@ -92,7 +93,7 @@ public class LineUpViewModel extends AndroidViewModel {
         for(Player x: p){
             list.add(new SavedPlayer(x.PlayerId+id, x.Name,x.Position,x.Team,x.Opponent,x.Salary,x.FantasyPoints,x.SlateId,id));
         }
-        SavedSlate s = new SavedSlate(id,currentSlate.SeasonYear, currentSlate.SlateName, currentSlate.StartDate, currentSlate.Week);
+        SavedSlate s = new SavedSlate(id,currentSlate.SeasonYear, currentSlate.SlateName, currentSlate.StartDate, currentSlate.Week, LoggedInUser.getLoggedInUser(getApplication()));
         savedPlayerRepository.insert(list);
         List<SavedSlate> l = new ArrayList<>();
         l.add(s);

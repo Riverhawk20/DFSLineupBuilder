@@ -18,11 +18,14 @@ public class SavedSlate {
 
     public String SlateName;
 
-    public SavedSlate(int SlateId, String SeasonYear, String SlateName, String StartDate, int Week ){
+    public String userId;
+
+    public SavedSlate(int SlateId, String SeasonYear, String SlateName, String StartDate, int Week, String userId ){
         this.SlateId = SlateId;
         this.SeasonYear = SeasonYear;
         this.Week = Week;
         this.StartDate = StartDate;
         this.SlateName = SlateName;
+        this.userId = userId;
     }
 }

@@ -17,8 +17,8 @@ import java.util.List;
 @Dao
 public interface SavedSlateDao {
 
-    @Query("SELECT * FROM saved_slate")
-    LiveData<List<SavedSlate>> getAll();
+    @Query("SELECT * FROM saved_slate WHERE userId = :userId")
+    LiveData<List<SavedSlate>> getAll(String userId);
 
     @Query("SELECT * FROM saved_slate WHERE SlateId IN (:slateIds)")
     List<SavedSlate> loadAllByIds(int[] slateIds);
