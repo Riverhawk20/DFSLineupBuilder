@@ -120,14 +120,60 @@ Resources:
   UserTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: dfs-lineup-builder-users
+      TableName: dfs-lineup-builder-user
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: UserId
-          AttributeType: N
+          AttributeType: S
+        - AttributeName: Email
+          AttributeType: S
       KeySchema:
         - AttributeName: UserId
           KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: gsi-email
+          KeySchema:
+            - AttributeName: Email
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+
+  QueryUserByEmailFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri:   QueryUserByEmailFunction
+      Handler: slate.App::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref UserTable
+      Events:
+        QuerySlateDataEvent:
+          Type: Api
+          Properties:
+            Path: /getuserbyemail
+            Method: GET
+            RestApiId:
+              Ref: QueryUserByEmailApi
+
+  QueryUserByEmailApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Name: QueryUserByEmailApi
+      Auth:
+        ApiKeyRequired: true
+        UsagePlan:
+          CreateUsagePlan: PER_API
+          Quota:
+            Limit: 500
+            Period: DAY
 
   QueryUserLineupDataFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -245,13 +291,13 @@ Resources:
   LineupTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: dfs-lineup-builder-lineups
+      TableName: dfs-lineup-builder-lineup
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: LineupId
           AttributeType: N
         - AttributeName: UserId
-          AttributeType: N
+          AttributeType: S
       KeySchema:
         - AttributeName: LineupId
           KeyType: HASH

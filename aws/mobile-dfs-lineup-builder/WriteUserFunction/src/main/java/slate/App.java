@@ -42,7 +42,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
  * Handler for requests to Lambda function.
  */
 public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
-    private String DYNAMODB_TABLE_NAME = "dfs-lineup-builder-users";
+    private String DYNAMODB_TABLE_NAME = "dfs-lineup-builder-user";
     private Regions REGION = Regions.US_EAST_1;
 
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {

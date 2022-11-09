@@ -49,8 +49,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
  */
 public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
     private String DYNAMODB_TABLE_NAME_USER = "dfs-lineup-builder-user";
-    private String DYNAMODB_TABLE_NAME_LINEUPS = "dfs-lineup-builder-lineup";
-    private String LINEUPS_GSI = "gsi-userid";
+    private String USER_GSI = "gsi-email";
     private Regions REGION = Regions.US_EAST_1;
 
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
@@ -62,46 +61,30 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                 .withHeaders(headers);
         try {
             Map<String, String> inputParams = input.getQueryStringParameters();
-            if(inputParams.containsKey("UserId")){
-                String userId = inputParams.get("UserId");
+            if(inputParams.containsKey("Email")){
+                String email = inputParams.get("Email");
                 AmazonDynamoDBClient clientShell = new AmazonDynamoDBClient();
                 clientShell.setRegion(Region.getRegion(REGION));
                 DynamoDB dynamoDB = new DynamoDB(clientShell);
 
-                Table lineupTable = dynamoDB.getTable(DYNAMODB_TABLE_NAME_LINEUPS);
-                Index lineupUserIdIndex = lineupTable.getIndex(LINEUPS_GSI);
-                QuerySpec lineupSpec = new QuerySpec()
-                        .withKeyConditionExpression("UserId  = :v_id")
-                        .withValueMap(new ValueMap()
-                                .withString(":v_id", userId));
-
-                ItemCollection<QueryOutcome> lineupItems = lineupUserIdIndex.query(lineupSpec);
-                Iterator<Item> lineupIter = lineupItems.iterator();
-                List<Object> lineupsList = new ArrayList<Object>();
-                while (lineupIter.hasNext()) {
-                    lineupsList.add(lineupIter.next().toJSON());
-                }
-
                 Table userTable = dynamoDB.getTable(DYNAMODB_TABLE_NAME_USER);
+                Index userEmailIndex = userTable.getIndex(USER_GSI);
                 QuerySpec userSpec = new QuerySpec()
-                        .withKeyConditionExpression("UserId  = :v_id")
+                        .withKeyConditionExpression("Email = :e")
                         .withValueMap(new ValueMap()
-                                .withString(":v_id", userId));
-                ItemCollection<QueryOutcome> userItems = userTable.query(userSpec);
+                                .withString(":e", email));
+                ItemCollection<QueryOutcome> userItems = userEmailIndex.query(userSpec);
                 Iterator<Item> userIter = userItems.iterator();
                 List<Object> userList = new ArrayList<Object>();
                 while (userIter.hasNext()) {
                     userList.add(userIter.next().toJSON());
                 }
-
-                UserLineupResponse res = new UserLineupResponse(lineupsList.get(0), lineupsList);
-                // convert DynamoDB result into JSON!
                 return response
                         .withStatusCode(200)
-                        .withBody(new Gson().toJson(res));
+                        .withBody(new Gson().toJson(userList.get(0)));
             }
             else{
-                throw new Exception("No UserID Passed in");
+                throw new Exception("No Email Passed in");
             }
 
         } catch (Exception e) {

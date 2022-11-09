@@ -64,4 +64,13 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["QueryUserLineupDataFunction"]
 
+[function_build_definitions.450776e0-60b6-46ac-b152-9d5ad940f209]
+codeuri = "E:\\Mobile Apps - DFSLineupBuilder\\aws\\mobile-dfs-lineup-builder\\QueryUserByEmailFunction"
+runtime = "java11"
+architecture = "x86_64"
+handler = "slate.App::handleRequest"
+manifest_hash = ""
+packagetype = "Zip"
+functions = ["QueryUserByEmailFunction"]
+
 [layer_build_definitions]
