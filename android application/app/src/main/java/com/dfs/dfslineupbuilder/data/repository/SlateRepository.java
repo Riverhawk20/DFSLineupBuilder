@@ -17,6 +17,7 @@ import com.dfs.dfslineupbuilder.retrofit.APIInterface;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +38,17 @@ public class SlateRepository {
         new InsertAsyncTask(db).execute(slateList);
     }
 
+    public Slate getSlate(int slateId){
+        Slate s = null;
+        try {
+            s = (new GetAsyncTask(db)).execute(slateId).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
     public void delete(Slate slate){
         Log.d("delete slate","deleting a task");
         new DeleteAsyncTask(db).execute(slate);
@@ -71,6 +83,35 @@ public class SlateRepository {
         private SlateDao slateDao;
         private final WeakReference<EntityRoomDatabase> entityRoomDatabaseWeakReference;
         DeleteAsyncTask(EntityRoomDatabase entityRoomDatabase)
+        {
+            this.entityRoomDatabaseWeakReference = new WeakReference<>(entityRoomDatabase);
+            slateDao= entityRoomDatabaseWeakReference.get().slateDao();
+        }
+        @Override
+        protected Void doInBackground(Slate... lists) {
+            slateDao.delete((lists[0]));
+            return null;
+        }
+    }
+
+    static class GetAsyncTask extends AsyncTask<Integer,Void,Slate> {
+        private SlateDao slateDao;
+        private final WeakReference<EntityRoomDatabase> entityRoomDatabaseWeakReference;
+        GetAsyncTask(EntityRoomDatabase entityRoomDatabase)
+        {
+            this.entityRoomDatabaseWeakReference = new WeakReference<>(entityRoomDatabase);
+            slateDao= entityRoomDatabaseWeakReference.get().slateDao();
+        }
+        @Override
+        protected Slate doInBackground(Integer... integers) {
+            return slateDao.getSlate(integers[0]);
+        }
+    }
+
+    static class DeleteAsyncTask2 extends AsyncTask<Slate,Void,Void> {
+        private SlateDao slateDao;
+        private final WeakReference<EntityRoomDatabase> entityRoomDatabaseWeakReference;
+        DeleteAsyncTask2(EntityRoomDatabase entityRoomDatabase)
         {
             this.entityRoomDatabaseWeakReference = new WeakReference<>(entityRoomDatabase);
             slateDao= entityRoomDatabaseWeakReference.get().slateDao();

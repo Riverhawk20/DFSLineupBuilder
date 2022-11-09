@@ -1,5 +1,6 @@
 package com.dfs.dfslineupbuilder.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,11 @@ import android.widget.Button;
 import com.dfs.dfslineupbuilder.R;
 
 public class BottomBarFragment extends Fragment  implements View.OnClickListener {
+
+    Context ctx;
+    public BottomBarFragment(Context context){
+        ctx = context;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +42,7 @@ public class BottomBarFragment extends Fragment  implements View.OnClickListener
         }else if (v.getId() == R.id.ProfileButton){
             fm.beginTransaction().replace(R.id.ContentFragment,new ProfileFragment()).addToBackStack(null).commit();
         }else{
-            fm.beginTransaction().replace(R.id.ContentFragment,new RegulationFragment()).addToBackStack(null).commit();
+            fm.beginTransaction().replace(R.id.ContentFragment,new RegulationFragment(ctx)).addToBackStack(null).commit();
         }
     }
 }

@@ -15,28 +15,25 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dfs.dfslineupbuilder.R;
+import com.dfs.dfslineupbuilder.data.model.SavedSlate;
 import com.dfs.dfslineupbuilder.data.model.Slate;
 import com.dfs.dfslineupbuilder.fragment.CreateLineUpFragment;
+import com.dfs.dfslineupbuilder.fragment.SavedLineUpFragment;
 import com.dfs.dfslineupbuilder.viewmodel.SlateViewModel;
 
 import java.util.List;
 
-public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder> {
-    private List<Slate> slates;
+public class SavedSlateAdapter extends RecyclerView.Adapter<SavedSlateAdapter.SavedSlateHolder> {
+    private List<SavedSlate> slates;
     private Context context;
     private SlateViewModel slateViewModel;
 
-    public SlateAdapter(Context context, List<Slate> slateList){
-        this.context = context;
-        this.slates = slateList;
-    }
-
     @NonNull
     @Override
-    public SlateHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SavedSlateHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.slate, parent, false);
         context = parent.getContext();
-        return new SlateHolder(itemView);
+        return new SavedSlateHolder(itemView);
     }
 
     public void setViewModel(SlateViewModel slateViewModel) {
@@ -44,7 +41,7 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SlateHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull SavedSlateHolder holder, @SuppressLint("RecyclerView") int position) {
         String text = slates.get(position).SlateName;
         holder.slateText.setText(text==null?"Classic":text);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -53,42 +50,32 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
                 FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
                 Bundle bundle = new Bundle();
                 bundle.putInt("slate", slates.get(holder.getLayoutPosition()).SlateId);
-                CreateLineUpFragment fragment = new CreateLineUpFragment();
+                SavedLineUpFragment fragment = new SavedLineUpFragment();//come back
                 fragment.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.ContentFragment, fragment).addToBackStack(null).commit();
             }
         });
-
-        holder.closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                slateViewModel.remove(slates.get(position));
-            }
-        });
-
     }
 
     @Override
     public int getItemCount() {
+        if(slates == null){
+            return 0;
+        }
         return slates.size();
     }
 
-    public void removeItem(int pos){
-
-    }
-
-    public void getAllSlates(List<Slate> slateList){
+    public void setAllSlates(List<SavedSlate> slateList){
         this.slates = slateList;
+        notifyDataSetChanged();
     }
 
-    class SlateHolder extends RecyclerView.ViewHolder {
+    class SavedSlateHolder extends RecyclerView.ViewHolder {
         private TextView slateText;
-        private Button closeBtn;
 
-        public SlateHolder(@NonNull View itemView) {
+        public SavedSlateHolder(@NonNull View itemView) {
             super(itemView);
             slateText = itemView.findViewById(R.id.SlateTxtId);
-            closeBtn = itemView.findViewById(R.id.RemoveBtn);
         }
     }
 }

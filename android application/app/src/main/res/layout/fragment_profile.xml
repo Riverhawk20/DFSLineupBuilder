@@ -25,15 +25,15 @@
     <FrameLayout
         android:id="@+id/UserInfoContainer"
         android:layout_width="358dp"
-        android:layout_height="157dp"
+        android:layout_height="114dp"
         android:layout_marginBottom="148dp"
         android:background="#d9d9d9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title2"
-        app:layout_constraintVertical_bias="0.095">
+        app:layout_constraintVertical_bias="0.056">
 
         <TextView
             android:id="@+id/UserName"
@@ -47,8 +47,8 @@
 
     <FrameLayout
         android:id="@+id/UserLineupContainer"
-        android:layout_width="362dp"
-        android:layout_height="293dp"
+        android:layout_width="391dp"
+        android:layout_height="363dp"
         android:background="#d9d9d9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,15 +56,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/UserInfoContainer"
         app:layout_constraintVertical_bias="0.303">
-
-        <TextView
-            android:id="@+id/userName"
-            android:layout_width="128dp"
-            android:layout_height="72dp"
-            android:layout_gravity="center_horizontal"
-            android:text="Lineups"
-            android:textAlignment="center"
-            android:textSize="24sp" />
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

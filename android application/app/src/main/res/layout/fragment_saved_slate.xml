@@ -4,19 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.SlateOptionFragment">
+    tools:context=".fragment.SavedSlateFragment">
 
     <TextView
         android:id="@+id/Title"
         android:layout_width="282dp"
         android:layout_height="52dp"
-        android:layout_marginTop="28dp"
-        android:text="Choose a slate"
+        android:text="Saved Slates"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="34sp"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,21 +26,20 @@
         android:contentDescription="All Slate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Title"
-        app:layout_constraintVertical_bias="0.176">
+        app:layout_constraintVertical_bias="0">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/SlateContainer"
-            android:layout_width="370dp"
-            android:layout_height="500dp"
-            android:layout_marginTop="24dp"
+            android:id="@+id/SavedSlateContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="#d9d9d9"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Title"
-            app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/slate"></androidx.recyclerview.widget.RecyclerView>
     </ScrollView>
 

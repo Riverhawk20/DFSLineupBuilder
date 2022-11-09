@@ -22,7 +22,7 @@ public class UserLandingPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_landing_page);
         FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.BottomBarContainer, new BottomBarFragment()).commit();
+        fm.beginTransaction().add(R.id.BottomBarContainer, new BottomBarFragment(this.getApplicationContext())).commit();
         fm.beginTransaction().add(R.id.ContentFragment, new SlateOptionFragment()).commit();
 
     }

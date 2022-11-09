@@ -34,4 +34,7 @@ public interface SlateDao {
 
     @Query("SELECT * FROM slate WHERE SlateId = :SlateId")
     LiveData<List<SlateWithPlayers>> getSlateWithPlayer(int SlateId);
+
+    @Query("SELECT * FROM slate WHERE SlateId = :SlateId")
+    Slate getSlate(int SlateId);
 }
