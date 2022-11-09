@@ -107,7 +107,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
             LoggedInUser.clearLoggedInUser(this.getApplicationContext());
 
-            LoggedInUser.setLoggedInUser(this.getApplicationContext(), newUser.UserId);
+            LoggedInUser.setLoggedInUser(this.getApplicationContext(), newUser.UserId, newUser.Email);
             Log.i(TAG, "Logged in user Id: "+LoggedInUser.getLoggedInUser(this.getApplicationContext()));
 
         }catch (NoSuchAlgorithmException e) {

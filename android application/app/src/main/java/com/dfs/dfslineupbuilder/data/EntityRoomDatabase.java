@@ -25,7 +25,7 @@ import com.dfs.dfslineupbuilder.data.model.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Lineup.class, Slate.class, Player.class, SavedSlate.class, SavedPlayer.class}, version = 6)
+@Database(entities = {User.class, Lineup.class, Slate.class, Player.class, SavedSlate.class, SavedPlayer.class}, version = 7)
 public abstract class EntityRoomDatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract PlayerDao playerDao();

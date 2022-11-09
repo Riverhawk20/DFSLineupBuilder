@@ -61,10 +61,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         Log.i(TAG,"login clicked");
         if(view.getId() == R.id.login){
-            String userId = checkLogin();
-            if(userId.length() > 0){
+            User user = checkLogin();
+            if(user != null){
                 Log.i(TAG, "login success");
-                handleLoginSuccess(userId);
+                handleLoginSuccess(user.UserId, user.Email);
             }else{
                 Log.i(TAG, "login failure");
                 handleLoginFail();
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private String checkLogin(){
+    private User checkLogin(){
         String email = emailET.getText().toString();
         String password = passwordET.getText().toString();
         String passwordHash = "";
@@ -90,10 +90,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         for (User user: allUsers.getValue()) {
             if(user.Email.equals(email) && user.PasswordHash.equals(passwordHash)){
-                return user.UserId;
+                return user;
             }
         }
-        return "";
+        return null;
     }
 
     private void handleLoginFail(){
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         finish();
     }
 
-    private void handleLoginSuccess(String userId){
+    private void handleLoginSuccess(String userId, String userName){
         Toast.makeText(this.getApplicationContext(), "Login Success!", Toast.LENGTH_SHORT).show();
         emailET.setText("");
         passwordET.setText("");
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //clear old logged in user
         LoggedInUser.clearLoggedInUser(this.getApplicationContext());
 
-        LoggedInUser.setLoggedInUser(this.getApplicationContext(), userId);
+        LoggedInUser.setLoggedInUser(this.getApplicationContext(), userId, userName);
         Log.i(TAG, "Logged in user Id: "+LoggedInUser.getLoggedInUser(this.getApplicationContext()));
 
         startActivity(new Intent(this.getApplicationContext(), UserLandingPageActivity.class));
