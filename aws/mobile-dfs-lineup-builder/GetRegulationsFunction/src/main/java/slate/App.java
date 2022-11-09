@@ -117,11 +117,13 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                     "https://www.actionnetwork.com/legal-online-sports-betting/where-is-daily-fantasy-sports-legal")
                     .get();
             ArrayList<Regulations> regulations = new ArrayList<Regulations>();
+            Character checkMark = Character.toChars(10003)[0];
             // get DraftKings regulations for DFS for each slate by scraping the table
             Elements regulationsElements = doc.select(".article-view__table-container tbody tr");
             for (Element regulationRow : regulationsElements) {
                 String state = regulationRow.select("td:nth-child(1)").text();
-                boolean isLegal = regulationRow.select("td:nth-child(2)").text() == "✓";
+                String isLegalText = regulationRow.select("td:nth-child(2)").text();
+                boolean isLegal = isLegalText.charAt(0) == checkMark;
                 if (state != null && state.length() > 0) {
                     regulations.add(new Regulations(state, isLegal));
                 }

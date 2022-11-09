@@ -114,28 +114,35 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                     DraftGroupRes draftGroupRes = new Gson().fromJson(draftGroupResponse.body(), DraftGroupRes.class);
                     ArrayList<Player> players = new ArrayList<Player>();
                     // create player object for each draftable
+                    // rosterSlotId !== 70
                     for (Draftable draftable : draftGroupRes.draftables) {
-                        // get the competition that pertains to this player
-                        Competition playerCompetiton = draftGroupRes.competitions.stream()
-                                .filter(c -> c.homeTeam.abbreviation.equals(draftable.teamAbbreviation)
-                                        || c.awayTeam.abbreviation.equals(draftable.teamAbbreviation))
-                                .findAny().orElse(null);
-                        if (playerCompetiton != null) {
-                            // get the opponent team name
-                            String opponent = playerCompetiton.homeTeam.abbreviation.equals(draftable.teamAbbreviation)
-                                    ? playerCompetiton.awayTeam.abbreviation
-                                    : playerCompetiton.homeTeam.abbreviation;
+                        // filter out duplicated players (UTIL Spot)
+                        if (draftable.rosterSlotId != 70) {
+                            // get the competition that pertains to this player
+                            Competition playerCompetiton = draftGroupRes.competitions.stream()
+                                    .filter(c -> c.homeTeam.abbreviation.equals(draftable.teamAbbreviation)
+                                            || c.awayTeam.abbreviation.equals(draftable.teamAbbreviation))
+                                    .findAny().orElse(null);
+                            if (playerCompetiton != null) {
+                                // get the opponent team name
+                                String opponent = playerCompetiton.homeTeam.abbreviation
+                                        .equals(draftable.teamAbbreviation)
+                                                ? playerCompetiton.awayTeam.abbreviation
+                                                : playerCompetiton.homeTeam.abbreviation;
 
-                            players.add(
-                                    new Player(draftable.draftableId, draftable.displayName, draftable.position,
-                                            draftable.teamAbbreviation,
-                                            opponent, draftable.salary, draftGroup.DraftGroupId));
+                                players.add(
+                                        new Player(draftable.draftableId, draftable.displayName, draftable.position,
+                                                draftable.teamAbbreviation,
+                                                opponent, draftable.salary, draftGroup.DraftGroupId));
+                            }
                         }
-                    }
-                    // build slate object and add to list
-                    slates.add(new Slate(draftGroup.DraftGroupId, draftGroup.ContestStartTimeSuffix,
-                            draftGroup.StartDate, players));
 
+                    }
+                    if (players.size() > 0) {
+                        // build slate object and add to list
+                        slates.add(new Slate(draftGroup.DraftGroupId, draftGroup.ContestStartTimeSuffix,
+                                draftGroup.StartDate, players));
+                    }
                 } catch (Exception e) {
                     System.out.println("Failed to get Draft Group Data");
                     e.printStackTrace();

@@ -6,4 +6,5 @@ public class Draftable {
     public int draftableId;
     public int salary;
     public String teamAbbreviation;
+    public int rosterSlotId;
 }

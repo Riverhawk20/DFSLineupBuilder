@@ -37,13 +37,22 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["WriteUserFunction"]
 
-[function_build_definitions.9d0a4dd9-8932-4865-81b7-9c714c19f9e2]
-codeuri = "E:\\Mobile Apps - DFSLineupBuilder\\aws\\mobile-dfs-lineup-builder\\WriteRegulationsFunction"
+[function_build_definitions.3421f23b-878c-4f43-941d-dae8b7fc2d44]
+codeuri = "E:\\Mobile Apps - DFSLineupBuilder\\aws\\mobile-dfs-lineup-builder\\GetRegulationsFunction"
 runtime = "java11"
 architecture = "x86_64"
 handler = "slate.App::handleRequest"
 manifest_hash = ""
 packagetype = "Zip"
-functions = ["WriteRegulationsFunction"]
+functions = ["GetRegulationsFunction"]
+
+[function_build_definitions.73d39357-89da-4764-a6dc-5dfafdd2d15d]
+codeuri = "E:\\Mobile Apps - DFSLineupBuilder\\aws\\mobile-dfs-lineup-builder\\QueryRegulationDataFunction"
+runtime = "java11"
+architecture = "x86_64"
+handler = "slate.App::handleRequest"
+manifest_hash = ""
+packagetype = "Zip"
+functions = ["QueryRegulationDataFunction"]
 
 [layer_build_definitions]
