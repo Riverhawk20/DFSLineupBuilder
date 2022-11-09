@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 public class LoggedInUser {
 
     static final String USER_ID = "userId";
+    static final String USER_NAME = "userName";
 
     static SharedPreferences getSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -18,9 +19,15 @@ public class LoggedInUser {
         return getSharedPreferences(context).getString(USER_ID,"");
     }
 
-    public static void setLoggedInUser(Context context, String userId){
+    public static String getLoggedInUserName(Context context){
+        return getSharedPreferences(context).getString(USER_NAME,"");
+    }
+
+    public static void setLoggedInUser(Context context, String userId, String userName){
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putString(USER_ID, userId);
+        String editedName = userName.substring(0,userName.indexOf("@"));
+        editor.putString(USER_NAME, editedName);
         editor.commit();
     }
 
