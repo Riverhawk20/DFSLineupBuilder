@@ -55,4 +55,13 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["QueryRegulationDataFunction"]
 
+[function_build_definitions.fa3406c3-a346-4ecf-b49b-2f8933592c5e]
+codeuri = "E:\\Mobile Apps - DFSLineupBuilder\\aws\\mobile-dfs-lineup-builder\\QueryUserLineupDataFunction"
+runtime = "java11"
+architecture = "x86_64"
+handler = "slate.App::handleRequest"
+manifest_hash = ""
+packagetype = "Zip"
+functions = ["QueryUserLineupDataFunction"]
+
 [layer_build_definitions]

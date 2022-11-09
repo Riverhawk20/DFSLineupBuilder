@@ -117,6 +117,56 @@ Resources:
           Quota:
             Limit: 500
             Period: DAY
+  UserTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: dfs-lineup-builder-users
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: UserId
+          AttributeType: N
+      KeySchema:
+        - AttributeName: UserId
+          KeyType: HASH
+
+  QueryUserLineupDataFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: QueryUserLineupDataFunction
+      Handler: slate.App::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref UserTable
+        - DynamoDBReadPolicy:
+            TableName: !Ref LineupTable
+      Events:
+        QuerySlateDataEvent:
+          Type: Api
+          Properties:
+            Path: /getuserlineup
+            Method: GET
+            RestApiId:
+              Ref: QueryUserLineupDataApi
+
+  QueryUserLineupDataApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Name:  QueryUserLineupDataApi
+      Auth:
+        ApiKeyRequired: true
+        UsagePlan:
+          CreateUsagePlan: PER_API
+          Quota:
+            Limit: 500
+            Period: DAY
 
   QuerySlateDataFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -207,6 +257,13 @@ Resources:
           KeyType: HASH
         - AttributeName: UserId
           KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: gsi-userid
+          KeySchema:
+            - AttributeName: UserId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
 
   WriteUserFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -245,14 +302,3 @@ Resources:
             Limit: 500
             Period: DAY
 
-  UserTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: dfs-lineup-builder-users
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: UserId
-          AttributeType: N
-      KeySchema:
-        - AttributeName: UserId
-          KeyType: HASH
