@@ -61,7 +61,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                 .withHeaders(headers);
         try {
             Map<String, String> inputParams = input.getQueryStringParameters();
-            if(inputParams.containsKey("Email")){
+            if (inputParams.containsKey("Email")) {
                 String email = inputParams.get("Email");
                 AmazonDynamoDBClient clientShell = new AmazonDynamoDBClient();
                 clientShell.setRegion(Region.getRegion(REGION));
@@ -75,15 +75,14 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                                 .withString(":e", email));
                 ItemCollection<QueryOutcome> userItems = userEmailIndex.query(userSpec);
                 Iterator<Item> userIter = userItems.iterator();
-                List<Object> userList = new ArrayList<Object>();
+                List<String> userList = new ArrayList<String>();
                 while (userIter.hasNext()) {
                     userList.add(userIter.next().toJSON());
                 }
                 return response
                         .withStatusCode(200)
-                        .withBody(new Gson().toJson(userList.get(0)));
-            }
-            else{
+                        .withBody(userList.get(0));
+            } else {
                 throw new Exception("No Email Passed in");
             }
 

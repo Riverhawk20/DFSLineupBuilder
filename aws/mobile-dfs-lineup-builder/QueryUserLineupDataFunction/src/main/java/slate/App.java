@@ -60,9 +60,10 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
+        Gson gson = new Gson();
         try {
             Map<String, String> inputParams = input.getQueryStringParameters();
-            if(inputParams.containsKey("UserId")){
+            if (inputParams.containsKey("UserId")) {
                 String userId = inputParams.get("UserId");
                 AmazonDynamoDBClient clientShell = new AmazonDynamoDBClient();
                 clientShell.setRegion(Region.getRegion(REGION));
@@ -77,9 +78,9 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
 
                 ItemCollection<QueryOutcome> lineupItems = lineupUserIdIndex.query(lineupSpec);
                 Iterator<Item> lineupIter = lineupItems.iterator();
-                List<Object> lineupsList = new ArrayList<Object>();
+                List<Lineup> lineupsList = new ArrayList<Lineup>();
                 while (lineupIter.hasNext()) {
-                    lineupsList.add(lineupIter.next().toJSON());
+                    lineupsList.add(gson.fromJson(lineupIter.next().toJSON(),Lineup.class));
                 }
 
                 Table userTable = dynamoDB.getTable(DYNAMODB_TABLE_NAME_USER);
@@ -89,18 +90,17 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                                 .withString(":v_id", userId));
                 ItemCollection<QueryOutcome> userItems = userTable.query(userSpec);
                 Iterator<Item> userIter = userItems.iterator();
-                List<Object> userList = new ArrayList<Object>();
+                List<User> userList = new ArrayList<User>();
                 while (userIter.hasNext()) {
-                    userList.add(userIter.next().toJSON());
+                    userList.add(gson.fromJson(userIter.next().toJSON(),User.class));
                 }
 
-                UserLineupResponse res = new UserLineupResponse(lineupsList.get(0), lineupsList);
+                UserLineupResponse res = new UserLineupResponse(userList.get(0), lineupsList);
                 // convert DynamoDB result into JSON!
                 return response
                         .withStatusCode(200)
                         .withBody(new Gson().toJson(res));
-            }
-            else{
+            } else {
                 throw new Exception("No UserID Passed in");
             }
 
