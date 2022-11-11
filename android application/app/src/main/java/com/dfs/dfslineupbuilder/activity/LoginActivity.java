@@ -21,12 +21,19 @@ import com.dfs.dfslineupbuilder.LoggedInUser;
 import com.dfs.dfslineupbuilder.R;
 import com.dfs.dfslineupbuilder.StringUtils;
 import com.dfs.dfslineupbuilder.data.model.User;
+import com.dfs.dfslineupbuilder.retrofit.APIClient;
+import com.dfs.dfslineupbuilder.retrofit.APIInterface;
 import com.dfs.dfslineupbuilder.viewmodel.UserViewModel;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -61,18 +68,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         Log.i(TAG,"login clicked");
         if(view.getId() == R.id.login){
-            User user = checkLogin();
-            if(user != null){
-                Log.i(TAG, "login success");
-                handleLoginSuccess(user.UserId, user.Email);
-            }else{
-                Log.i(TAG, "login failure");
-                handleLoginFail();
-            }
+            checkRoomUsers();
         }
     }
 
-    private User checkLogin(){
+    private void checkRoomUsers(){
         String email = emailET.getText().toString();
         String password = passwordET.getText().toString();
         String passwordHash = "";
@@ -88,12 +88,45 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(this, "Error: No SHA-256 algorithm found", Toast.LENGTH_SHORT).show();
         }
 
+        boolean foundUser = false;
         for (User user: allUsers.getValue()) {
             if(user.Email.equals(email) && user.PasswordHash.equals(passwordHash)){
-                return user;
+                Log.i(TAG, "login success from room");
+                foundUser = true;
+                handleLoginSuccess(user);
             }
         }
-        return null;
+        if(!foundUser){
+            checkNetworkUsers(email, passwordHash);
+        }
+    }
+
+    private void checkNetworkUsers(String email, String passwordHash) {
+
+        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<User> call = apiInterface.getUserByEmail("https://33c41umu3j.execute-api.us-east-1.amazonaws.com/Prod/getuserbyemail", email);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.isSuccessful()){
+                    if(response.body() != null){
+                        if(response.body().Email.equals(email) && response.body().PasswordHash.equals(passwordHash)){
+                            Log.i(TAG, "login success from network");
+                            handleLoginSuccess(response.body());
+                        }
+                    }
+                }else{
+                    Log.i(TAG, "response code "+response.code());
+                    handleLoginFail();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e(TAG, "failure to get user by email", t);
+            }
+        });
     }
 
     private void handleLoginFail(){
@@ -103,7 +136,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         finish();
     }
 
-    private void handleLoginSuccess(String userId, String userName){
+    private void handleLoginSuccess(User user){
         Toast.makeText(this.getApplicationContext(), "Login Success!", Toast.LENGTH_SHORT).show();
         emailET.setText("");
         passwordET.setText("");
@@ -111,7 +144,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //clear old logged in user
         LoggedInUser.clearLoggedInUser(this.getApplicationContext());
 
-        LoggedInUser.setLoggedInUser(this.getApplicationContext(), userId, userName);
+        LoggedInUser.setLoggedInUser(this.getApplicationContext(), user.UserId, user.Email);
         Log.i(TAG, "Logged in user Id: "+LoggedInUser.getLoggedInUser(this.getApplicationContext()));
 
         startActivity(new Intent(this.getApplicationContext(), UserLandingPageActivity.class));
