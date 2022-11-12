@@ -10,7 +10,7 @@ public class SavedSlate {
     @PrimaryKey
     public int SlateId;
 
-    public String SeasonYear;
+    public int TotalSalary;
 
     public int Week;
 
@@ -20,9 +20,9 @@ public class SavedSlate {
 
     public String userId;
 
-    public SavedSlate(int SlateId, String SeasonYear, String SlateName, String StartDate, int Week, String userId ){
+    public SavedSlate(int SlateId, int TotalSalary, String SlateName, String StartDate, int Week, String userId ){
         this.SlateId = SlateId;
-        this.SeasonYear = SeasonYear;
+        this.TotalSalary = TotalSalary;
         this.Week = Week;
         this.StartDate = StartDate;
         this.SlateName = SlateName;

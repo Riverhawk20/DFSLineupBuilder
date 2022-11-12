@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.dfs.dfslineupbuilder.adapter.LineUpAdapter;
 import com.dfs.dfslineupbuilder.R;
+import com.dfs.dfslineupbuilder.data.model.Lineup;
 import com.dfs.dfslineupbuilder.data.model.Player;
 import com.dfs.dfslineupbuilder.data.model.SlateWithPlayers;
 import com.dfs.dfslineupbuilder.data.repository.PlayerRepository;
@@ -69,6 +70,7 @@ public class CreateLineUpFragment extends Fragment {
 
 
 
+
         balanceText = v.findViewById(R.id.BalanceTxt);
         positionFilled = v.findViewById(R.id.PositionFilledTxt);
 
@@ -112,6 +114,8 @@ public class CreateLineUpFragment extends Fragment {
             public void onClick(View view) {
                 if(lineUpViewModel.saveLineup()){
                     Toast.makeText(getContext(),"Lineup Saved!", Toast.LENGTH_SHORT).show();
+                    sharedHelperViewModel.setIndex(-1);
+                    getParentFragmentManager().popBackStack();
                 }else{
                     Toast.makeText(getContext(),"Lineup cannot be saved, fill in the rest of the players", Toast.LENGTH_SHORT).show();
                 }

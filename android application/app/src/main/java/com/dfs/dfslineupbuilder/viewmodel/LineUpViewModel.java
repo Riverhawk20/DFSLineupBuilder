@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.dfs.dfslineupbuilder.LoggedInUser;
 import com.dfs.dfslineupbuilder.data.model.Lineup;
+import com.dfs.dfslineupbuilder.data.model.LineupPost;
 import com.dfs.dfslineupbuilder.data.model.Player;
 import com.dfs.dfslineupbuilder.data.model.SavedPlayer;
 import com.dfs.dfslineupbuilder.data.model.SavedSlate;
@@ -19,11 +20,18 @@ import com.dfs.dfslineupbuilder.data.model.User;
 import com.dfs.dfslineupbuilder.data.repository.SavedPlayerRepository;
 import com.dfs.dfslineupbuilder.data.repository.SavedSlateRepository;
 import com.dfs.dfslineupbuilder.data.repository.SlateRepository;
+import com.dfs.dfslineupbuilder.retrofit.APIClient;
+import com.dfs.dfslineupbuilder.retrofit.APIInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LineUpViewModel extends AndroidViewModel {
     private MutableLiveData<Integer> balanceLiveData = new MutableLiveData<>(50000);
@@ -34,6 +42,7 @@ public class LineUpViewModel extends AndroidViewModel {
     private SavedPlayerRepository savedPlayerRepository;
     private int currentSlateId;
     private Slate currentSlate;
+    private APIInterface apiInterface;
 
     public LineUpViewModel(@NonNull Application application) {
         super(application);
@@ -50,6 +59,7 @@ public class LineUpViewModel extends AndroidViewModel {
         savedPlayerRepository = new SavedPlayerRepository(application);
         slateRepository = new SlateRepository(application);
         currentSlate = slateRepository.getSlate(76927);
+        apiInterface = APIClient.getClient().create(APIInterface.class);
     }
 
     public void setSlateId(int id){
@@ -90,14 +100,37 @@ public class LineUpViewModel extends AndroidViewModel {
         int id = new Random().nextInt(9999999);
         List<SavedPlayer> list = new ArrayList<>();
         List<Player> p = Players.getValue();
+        int salary = 50000-balanceLiveData.getValue();
         for(Player x: p){
             list.add(new SavedPlayer(x.PlayerId+id, x.Name,x.Position,x.Team,x.Opponent,x.Salary,x.FantasyPoints,x.SlateId,id));
         }
-        SavedSlate s = new SavedSlate(id,currentSlate.SeasonYear, currentSlate.SlateName, currentSlate.StartDate, currentSlate.Week, LoggedInUser.getLoggedInUser(getApplication()));
+        SavedSlate s = new SavedSlate(id,salary, currentSlate.SlateName, currentSlate.StartDate, currentSlate.Week, LoggedInUser.getLoggedInUser(getApplication()));
         savedPlayerRepository.insert(list);
         List<SavedSlate> l = new ArrayList<>();
         l.add(s);
         savedSlateRepository.insert(l);
+
+        try{
+            LineupPost post = new LineupPost(s.SlateId,0, s.TotalSalary, s.userId,list);
+            Call<ResponseBody> call = apiInterface.postLineup("https://mrqwl4e43h.execute-api.us-east-1.amazonaws.com/Prod/writelineup",post);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if(response.isSuccessful()){
+                        Log.i("lineup", "lineup added to dynamoDB");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.i("Error", "lineup not added to dynamoDB");
+                }
+            });
+
+        }catch (Exception e){
+            Log.i("Error", "issue with network");
+        }
 
         return true;
     }

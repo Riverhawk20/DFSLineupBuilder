@@ -9,13 +9,16 @@ import androidx.lifecycle.LiveData;
 import com.dfs.dfslineupbuilder.LoggedInUser;
 import com.dfs.dfslineupbuilder.data.EntityRoomDatabase;
 import com.dfs.dfslineupbuilder.data.dao.SavedSlateDao;
+import com.dfs.dfslineupbuilder.data.dao.SlateDao;
 import com.dfs.dfslineupbuilder.data.model.Player;
 import com.dfs.dfslineupbuilder.data.model.SavedSlate;
 import com.dfs.dfslineupbuilder.data.model.SavedSlateWithSavedPlayer;
+import com.dfs.dfslineupbuilder.data.model.Slate;
 import com.dfs.dfslineupbuilder.data.model.SlateWithPlayers;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class SavedSlateRepository {
 
@@ -42,6 +45,18 @@ public class SavedSlateRepository {
         return db.savedSlateDao().getSavedSlateWithSavedPlayer(SlateId);
     }
 
+    public SavedSlate getSlate(int slateId){
+        SavedSlate s = null;
+        try {
+            s = (new SavedSlateRepository.GetAsyncTask(db)).execute(slateId).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
+
     static class InsertAsyncTask extends AsyncTask<List<SavedSlate>,Void,Void> {
         private SavedSlateDao slateDao;
         private final WeakReference<EntityRoomDatabase> entityRoomDatabaseWeakReference;
@@ -54,6 +69,20 @@ public class SavedSlateRepository {
         protected Void doInBackground(List<SavedSlate>... lists) {
             slateDao.insert(lists[0]);
             return null;
+        }
+    }
+
+    static class GetAsyncTask extends AsyncTask<Integer,Void,SavedSlate> {
+        private SavedSlateDao slateDao;
+        private final WeakReference<EntityRoomDatabase> entityRoomDatabaseWeakReference;
+        GetAsyncTask(EntityRoomDatabase entityRoomDatabase)
+        {
+            this.entityRoomDatabaseWeakReference = new WeakReference<>(entityRoomDatabase);
+            slateDao= entityRoomDatabaseWeakReference.get().savedSlateDao();
+        }
+        @Override
+        protected SavedSlate doInBackground(Integer... integers) {
+            return slateDao.getSlate(integers[0]);
         }
     }
 }

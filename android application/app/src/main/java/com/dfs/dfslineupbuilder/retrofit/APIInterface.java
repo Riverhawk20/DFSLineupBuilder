@@ -1,9 +1,11 @@
 package com.dfs.dfslineupbuilder.retrofit;
 
+import com.dfs.dfslineupbuilder.data.model.LineupPost;
 import com.dfs.dfslineupbuilder.data.model.Regulation;
 import com.dfs.dfslineupbuilder.data.model.Slate;
 import com.dfs.dfslineupbuilder.data.model.SlateTest;
 import com.dfs.dfslineupbuilder.data.model.User;
+import com.dfs.dfslineupbuilder.data.model.UserLineupResponse;
 
 import java.util.List;
 
@@ -34,5 +36,13 @@ public interface APIInterface {
     @Headers("x-api-key: kFAjHwmMLA8Z2DIcVTtA3BOOS53ofYN9reGBPJL8")
     @GET()
     Call<User> getUserByEmail(@Url String fullUrl, @Query("Email") String email);
+
+    @Headers("x-api-key: KvW2RdfTmh1gW0L6VIYSyaybPZ1BW2zA3DtWrBzZ")
+    @GET()
+    Call<UserLineupResponse> getLineupByUser(@Url String fullUrl, @Query("UserId") String userId);
+
+    @Headers("x-api-key: o8EDNHHZMn2TGuhhDLhJX7DaZefsQZcw1pkZDDla")
+    @POST()
+    Call<ResponseBody> postLineup(@Url String fullUrl, @Body LineupPost lineup);
 
 }

@@ -19,6 +19,7 @@ import com.dfs.dfslineupbuilder.adapter.SlateAdapter;
 import com.dfs.dfslineupbuilder.data.EntityRoomDatabase;
 import com.dfs.dfslineupbuilder.data.dao.SlateDao;
 import com.dfs.dfslineupbuilder.data.model.Player;
+import com.dfs.dfslineupbuilder.data.model.Regulation;
 import com.dfs.dfslineupbuilder.data.model.SlateTest;
 import com.dfs.dfslineupbuilder.data.repository.PlayerRepository;
 import com.dfs.dfslineupbuilder.viewmodel.SlateViewModel;
@@ -64,7 +65,7 @@ public class SlateOptionFragment extends Fragment {
 
         recyclerView.setAdapter(slateAdapter);
         slateViewModel = new ViewModelProvider(this).get(SlateViewModel.class);
-        // networkRequest();
+        networkRequest();
         slateAdapter.setViewModel(slateViewModel);
         slateViewModel.getSlates().observe(getViewLifecycleOwner(), new Observer<List<Slate>>() {
             @Override
@@ -73,7 +74,7 @@ public class SlateOptionFragment extends Fragment {
                 slateAdapter.getAllSlates(slateList);
             }
         });
-
+        
         return v;
     }
 

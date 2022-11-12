@@ -10,6 +10,7 @@ import androidx.room.Query;
 import com.dfs.dfslineupbuilder.data.model.SavedPlayer;
 import com.dfs.dfslineupbuilder.data.model.SavedSlate;
 import com.dfs.dfslineupbuilder.data.model.SavedSlateWithSavedPlayer;
+import com.dfs.dfslineupbuilder.data.model.Slate;
 import com.dfs.dfslineupbuilder.data.model.SlateWithPlayers;
 
 import java.util.List;
@@ -34,4 +35,7 @@ public interface SavedSlateDao {
 
     @Query("SELECT * FROM saved_slate WHERE SlateId = :SlateId")
     LiveData<List<SavedSlateWithSavedPlayer>> getSavedSlateWithSavedPlayer(int SlateId);
+
+    @Query("SELECT * FROM saved_slate WHERE SlateId = :SlateId")
+    SavedSlate getSlate(int SlateId);
 }

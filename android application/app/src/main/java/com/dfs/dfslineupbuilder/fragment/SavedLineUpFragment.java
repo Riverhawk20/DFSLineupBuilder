@@ -31,11 +31,7 @@ import java.util.List;
 public class SavedLineUpFragment extends Fragment {
 
     TextView balanceText;
-    TextView positionFilled;
-    PlayerRepository playerRepository;
-    LineUpViewModel lineUpViewModel;
     int slateId;
-    SharedHelperViewModel sharedHelperViewModel;
     SavedLineUpViewModel savedLineUpViewModel;
     RecyclerView recyclerView;
     SavedLineUpAdapter adapter;
@@ -53,6 +49,7 @@ public class SavedLineUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_saved_line_up, container, false);
         savedLineUpViewModel = new ViewModelProvider(this).get(SavedLineUpViewModel.class);
+        balanceText = v.findViewById(R.id.SalaryText);
 
         savedLineUpViewModel.setSlateId(slateId);
         recyclerView = v.findViewById(R.id.SavedLineUpContainerLayout);
@@ -61,6 +58,12 @@ public class SavedLineUpFragment extends Fragment {
 
         adapter = new SavedLineUpAdapter();
         recyclerView.setAdapter(adapter);
+        savedLineUpViewModel.getBalanceLiveData().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                balanceText.setText("Total Salary: "+integer);
+            }
+        });
 
         savedLineUpViewModel.getPlayerLiveData().observe(getViewLifecycleOwner(), new Observer<List<SavedSlateWithSavedPlayer>>() {
             @Override

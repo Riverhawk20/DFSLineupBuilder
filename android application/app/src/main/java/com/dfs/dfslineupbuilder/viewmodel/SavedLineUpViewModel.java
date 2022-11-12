@@ -31,7 +31,7 @@ public class SavedLineUpViewModel extends AndroidViewModel {
     private LiveData<List<SavedSlateWithSavedPlayer>> Players;
     private SavedSlateRepository slateRepository;
     private int currentSlateId;
-    private Slate currentSlate;
+    private SavedSlate currentSlate;
 
     public SavedLineUpViewModel(@NonNull Application application) {
         super(application);
@@ -41,6 +41,8 @@ public class SavedLineUpViewModel extends AndroidViewModel {
     public void setSlateId(int id){
         currentSlateId = id;
         Players = slateRepository.getPlayers(currentSlateId);
+        currentSlate = slateRepository.getSlate(currentSlateId);
+        balanceLiveData.setValue(currentSlate.TotalSalary);
     }
 
     public MutableLiveData<Integer> getBalanceLiveData(){
