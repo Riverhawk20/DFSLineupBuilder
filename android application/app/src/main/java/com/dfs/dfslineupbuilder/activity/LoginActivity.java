@@ -113,6 +113,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if(response.body() != null){
                         if(response.body().Email.equals(email) && response.body().PasswordHash.equals(passwordHash)){
                             Log.i(TAG, "login success from network");
+                            userViewModel.insert(response.body());
                             handleLoginSuccess(response.body());
                         }
                     }
