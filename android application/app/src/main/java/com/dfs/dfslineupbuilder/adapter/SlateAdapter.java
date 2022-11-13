@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dfs.dfslineupbuilder.R;
 import com.dfs.dfslineupbuilder.data.model.Slate;
 import com.dfs.dfslineupbuilder.fragment.CreateLineUpFragment;
+import com.dfs.dfslineupbuilder.viewmodel.SharedHelperViewModel;
 import com.dfs.dfslineupbuilder.viewmodel.SlateViewModel;
 
 import java.util.List;
@@ -59,13 +60,6 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
             }
         });
 
-        holder.closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                slateViewModel.remove(slates.get(position));
-            }
-        });
-
     }
 
     @Override
@@ -88,7 +82,6 @@ public class SlateAdapter extends RecyclerView.Adapter<SlateAdapter.SlateHolder>
         public SlateHolder(@NonNull View itemView) {
             super(itemView);
             slateText = itemView.findViewById(R.id.SlateTxtId);
-            closeBtn = itemView.findViewById(R.id.RemoveBtn);
         }
     }
 }

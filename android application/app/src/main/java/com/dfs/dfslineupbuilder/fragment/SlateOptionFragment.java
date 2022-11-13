@@ -22,6 +22,7 @@ import com.dfs.dfslineupbuilder.data.model.Player;
 import com.dfs.dfslineupbuilder.data.model.Regulation;
 import com.dfs.dfslineupbuilder.data.model.SlateTest;
 import com.dfs.dfslineupbuilder.data.repository.PlayerRepository;
+import com.dfs.dfslineupbuilder.viewmodel.SharedHelperViewModel;
 import com.dfs.dfslineupbuilder.viewmodel.SlateViewModel;
 import com.dfs.dfslineupbuilder.data.repository.SlateRepository;
 import com.dfs.dfslineupbuilder.data.model.Slate;
@@ -67,6 +68,7 @@ public class SlateOptionFragment extends Fragment {
         slateViewModel = new ViewModelProvider(this).get(SlateViewModel.class);
         networkRequest();
         slateAdapter.setViewModel(slateViewModel);
+        new ViewModelProvider(this).get(SharedHelperViewModel.class).setIndex(-1);
         slateViewModel.getSlates().observe(getViewLifecycleOwner(), new Observer<List<Slate>>() {
             @Override
             public void onChanged(List<Slate> slateList) {

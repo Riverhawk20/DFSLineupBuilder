@@ -50,7 +50,12 @@ public class SelectPlayersFragment extends Fragment {
         playerRepository.getPlayers(slateId).observe(getViewLifecycleOwner(), new Observer<List<SlateWithPlayers>>() {
             @Override
             public void onChanged(List<SlateWithPlayers> slateWithPlayers) {
-                adapter.setSlates(slateWithPlayers.get(0).players.stream().filter(p->p.Position.equals(pos)).collect(Collectors.toList()));
+                if(pos.equals("FL")){
+                    adapter.setSlates(slateWithPlayers.get(0).players);
+                }else{
+                    adapter.setSlates(slateWithPlayers.get(0).players.stream().filter(p->p.Position.equals(pos)).collect(Collectors.toList()));
+                }
+
             }});
         sharedHelperViewModel = new ViewModelProvider(getActivity()).get(SharedHelperViewModel.class);
         adapter.setValues(sharedHelperViewModel);

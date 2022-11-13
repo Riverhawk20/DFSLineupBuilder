@@ -21,7 +21,7 @@
     <ScrollView
         android:id="@+id/LineUpContainer"
         android:layout_width="370dp"
-        android:layout_height="510dp"
+        android:layout_height="548dp"
         android:background="#d9d9d9"
         android:contentDescription="All Slate"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -18,7 +18,7 @@
 
         <Button
             android:id="@+id/HomeButton"
-            android:layout_width="110dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center|center_vertical"
@@ -27,7 +27,7 @@
 
         <Button
             android:id="@+id/ProfileButton"
-            android:layout_width="110dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
@@ -36,12 +36,12 @@
 
         <Button
             android:id="@+id/RegulationButton"
-            android:layout_width="110dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:text="Regulation"
-            android:textSize="11sp"  />
+            android:textSize="11sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

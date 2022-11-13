@@ -53,7 +53,7 @@ public class LineUpViewModel extends AndroidViewModel {
         Players.getValue().add(new Player("Wide Receive", "WR","","",0,0,0));
         Players.getValue().add(new Player("Wide Receive", "WR","","",0,0,0));
         Players.getValue().add(new Player("Tight Ends", "TE","","",0,0,0));
-        Players.getValue().add(new Player("FLEX", "RB","","",0,0,0));
+        Players.getValue().add(new Player("FLEX", "FL","","",0,0,0));
         Players.getValue().add(new Player("Defense", "DST","","",0,0,0));
         savedSlateRepository = new SavedSlateRepository(application);
         savedPlayerRepository = new SavedPlayerRepository(application);

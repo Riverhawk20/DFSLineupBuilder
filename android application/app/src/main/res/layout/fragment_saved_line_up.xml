@@ -10,7 +10,7 @@
         android:id="@+id/SavedLineUpTitle"
         android:layout_width="224dp"
         android:layout_height="45dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:text="Saved Lineup"
         android:textAlignment="center"
         android:textColor="#000000"
@@ -22,15 +22,15 @@
 
     <ScrollView
         android:id="@+id/SavedLineUpContainer"
-        android:layout_width="415dp"
-        android:layout_height="503dp"
+        android:layout_width="406dp"
+        android:layout_height="613dp"
         android:background="#d9d9d9"
         android:contentDescription="All Slate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SalaryText"
-        app:layout_constraintVertical_bias="0.116">
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/SavedLineUpContainerLayout"
@@ -44,7 +44,7 @@
         android:id="@+id/SalaryText"
         android:layout_width="297dp"
         android:layout_height="34dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:text="Total Salary: "
         android:textAlignment="center"
         android:textSize="20sp"
