@@ -8,5 +8,6 @@ public class Lineup {
     public int FantasyPoints;
     public int TotalSalary;
     public String UserId;
+    public String LineupName;
     public ArrayList<Player> players;
 }

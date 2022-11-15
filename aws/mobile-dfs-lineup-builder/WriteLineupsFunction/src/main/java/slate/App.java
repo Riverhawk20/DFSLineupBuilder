@@ -61,6 +61,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
             Item lineupItem = new Item()
                     .withJSON("players", new Gson().toJson(lineup.players))
                     .withPrimaryKey("LineupId", lineup.LineupId, "UserId", lineup.UserId)
+                    .withString("LineupName", lineup.LineupName)
                     .withNumber("LineupId", lineup.LineupId)
                     .withNumber("TotalSalary", lineup.TotalSalary)
                     .withNumber("FantasyPoints", lineup.FantasyPoints);

@@ -42,15 +42,18 @@ public class LineUpAdapter extends RecyclerView.Adapter<LineUpAdapter.LineUpHold
     @Override
     public void onBindViewHolder(@NonNull LineUpHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.playerFullText.setText(player.get(position).Name);
-        holder.playerShortText.setText(player.get(position).Position);
+        String positionText = position == 7 ? "FLEX" : player.get(position).Position;
+        holder.playerShortText.setText(positionText);
         holder.playerCostText.setText(String.valueOf(player.get(position).Salary));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
+                int layoutPos = holder.getLayoutPosition();
                 Bundle bundle = new Bundle();
                 bundle.putInt("slate",slateId);
-                bundle.putString("position", player.get(holder.getLayoutPosition()).Position);
+                bundle.putString("position", player.get(layoutPos).Position);
+                bundle.putInt("layoutPos", layoutPos);
                 SelectPlayersFragment fragment = new SelectPlayersFragment();
                 sharedHelperViewModel.setIndex(position);
                 fragment.setArguments(bundle);
