@@ -8,15 +8,15 @@
 
     <TextView
         android:id="@+id/LineUpTitle"
-        android:layout_width="224dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="257dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
         android:text="Create Lineup"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textColor="#000000"
         android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintEnd_toStartOf="@+id/saveLineupBtn"
+        app:layout_constraintHorizontal_bias="0.58"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            tools:listitem="@layout/player_select_card"></androidx.recyclerview.widget.RecyclerView>
+            tools:listitem="@layout/player_select_card"/>
     </ScrollView>
 
     <LinearLayout
@@ -76,10 +76,10 @@
         android:id="@+id/saveLineupBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
         android:text="Save"
-        app:layout_constraintStart_toEndOf="@+id/LineUpTitle"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

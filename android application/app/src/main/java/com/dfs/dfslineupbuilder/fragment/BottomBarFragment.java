@@ -15,11 +15,6 @@ import com.dfs.dfslineupbuilder.R;
 
 public class BottomBarFragment extends Fragment  implements View.OnClickListener {
 
-    Context ctx;
-    public BottomBarFragment(Context context){
-        ctx = context;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,13 +31,14 @@ public class BottomBarFragment extends Fragment  implements View.OnClickListener
     }
 
     public void onClick(View v){
-        FragmentManager fm = getParentFragmentManager();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        fm.popBackStack();
         if(v.getId() == R.id.HomeButton){
             fm.beginTransaction().replace(R.id.ContentFragment,new SlateOptionFragment()).commit();
         }else if (v.getId() == R.id.ProfileButton){
             fm.beginTransaction().replace(R.id.ContentFragment,new ProfileFragment()).addToBackStack(null).commit();
         }else{
-            fm.beginTransaction().replace(R.id.ContentFragment,new RegulationFragment(ctx)).addToBackStack(null).commit();
+            fm.beginTransaction().replace(R.id.ContentFragment,new RegulationFragment()).addToBackStack(null).commit();
         }
     }
 }

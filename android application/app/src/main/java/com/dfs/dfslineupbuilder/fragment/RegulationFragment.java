@@ -67,10 +67,6 @@ public class RegulationFragment extends Fragment {
 
     Context ctx;
     private static final String TAG = "SignupActivity";
-    public RegulationFragment(Context context) {
-        // Required empty public constructor
-        ctx = context;
-    }
 
     /**
      * Use this factory method to create a new instance of
@@ -101,6 +97,7 @@ public class RegulationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        ctx = requireContext();
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(ctx);
         getLastLocation();

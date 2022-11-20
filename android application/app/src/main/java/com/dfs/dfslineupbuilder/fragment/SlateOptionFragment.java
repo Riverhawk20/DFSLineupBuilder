@@ -68,7 +68,7 @@ public class SlateOptionFragment extends Fragment {
         slateViewModel = new ViewModelProvider(this).get(SlateViewModel.class);
         networkRequest();
         slateAdapter.setViewModel(slateViewModel);
-        new ViewModelProvider(this).get(SharedHelperViewModel.class).setIndex(-1);
+        new ViewModelProvider(getActivity()).get(SharedHelperViewModel.class).setIndex(-1);
         slateViewModel.getSlates().observe(getViewLifecycleOwner(), new Observer<List<Slate>>() {
             @Override
             public void onChanged(List<Slate> slateList) {
