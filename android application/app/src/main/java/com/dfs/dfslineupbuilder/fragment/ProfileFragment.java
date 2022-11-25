@@ -22,20 +22,22 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FragmentManager fm = getParentFragmentManager();
-        fm.beginTransaction().add(R.id.UserLineupContainer, new SavedSlateFragment()).commit();
+        if (savedInstanceState == null) {
+            FragmentManager fm = getParentFragmentManager();
+            fm.beginTransaction().add(R.id.UserLineupContainer, new SavedSlateFragment()).commit();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
-         return v;
+        return v;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         userInfo = (TextView) getView().findViewById(R.id.UserName);
-        userInfo.setText("Welcome "+ LoggedInUser.getLoggedInUserName(this.getContext()) + "!");
+        userInfo.setText("Welcome " + LoggedInUser.getLoggedInUserName(this.getContext()) + "!");
     }
 }

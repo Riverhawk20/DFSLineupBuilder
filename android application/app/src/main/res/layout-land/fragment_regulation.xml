@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.RegulationFragment">
+
+    <FrameLayout
+        android:id="@+id/RegulationInfoContainer"
+        android:layout_width="452dp"
+        android:layout_height="173dp"
+        android:background="#d9d9d9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RegulationText"
+        app:layout_constraintVertical_bias="0.159">
+
+        <TextView
+            android:id="@+id/StateRegulationTV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/RegulationText"
+        android:layout_width="366dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:text="Regulation In Your State"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

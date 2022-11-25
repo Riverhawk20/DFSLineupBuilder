@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.SavedLineUpFragment">
+
+    <TextView
+        android:id="@+id/SavedLineUpTitle"
+        android:layout_width="224dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="24dp"
+        android:text="Saved Lineup"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/SavedLineUpContainer"
+        android:layout_width="406dp"
+        android:layout_height="190dp"
+        android:background="#d9d9d9"
+        android:contentDescription="All Slate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SalaryText"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/SavedLineUpContainerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:listitem="@layout/player_select_card"/>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/SalaryText"
+        android:layout_width="297dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="8dp"
+        android:text="Total Salary: "
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SavedLineUpTitle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

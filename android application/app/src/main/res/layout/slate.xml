@@ -13,15 +13,13 @@
 
         <TextView
             android:id="@+id/SlateTxtId"
-            android:layout_width="361dp"
-            android:layout_height="38dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="14dp"
-            android:layout_marginBottom="10dp"
             android:text="Slate 1"
-            android:textAlignment="center"
             android:textColor="@color/black"
+            android:gravity="center"
             android:textSize="20sp" />
 
     </RelativeLayout>

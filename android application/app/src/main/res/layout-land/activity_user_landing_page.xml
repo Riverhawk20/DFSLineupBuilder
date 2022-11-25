@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.UserLandingPageActivity">
+
+    <FrameLayout
+        android:id="@+id/BottomBarContainer"
+        android:layout_width="139dp"
+        android:layout_height="382dp"
+        android:background="#D8D8D8"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.003"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.448">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/ContentFragment"
+        android:layout_width="501dp"
+        android:layout_height="317dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.617"
+        app:layout_constraintStart_toEndOf="@+id/BottomBarContainer"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
