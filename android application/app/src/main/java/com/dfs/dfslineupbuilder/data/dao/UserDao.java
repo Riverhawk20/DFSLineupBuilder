@@ -18,7 +18,7 @@ public interface UserDao {
     LiveData<List<User>> getAll();
 
     @Query("SELECT * FROM user WHERE UserId IN (:userIds)")
-    List<User> loadAllByIds(int[] userIds);
+    List<User> loadAllByIds(String[] userIds);
 
     @Query("SELECT * FROM user WHERE email IS (:email) AND passwordHash IS (:password)")
     LiveData<User> getUserByLogin(String email, String password);
