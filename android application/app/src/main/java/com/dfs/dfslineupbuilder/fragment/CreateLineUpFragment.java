@@ -68,23 +68,20 @@ public class CreateLineUpFragment extends Fragment {
             }
         });
 
-
-
-
         balanceText = v.findViewById(R.id.BalanceTxt);
         positionFilled = v.findViewById(R.id.PositionFilledTxt);
 
         lineUpViewModel.getBalanceLiveData().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                balanceText.setText("Balance: "+String.valueOf(integer));
+                balanceText.setText("Balance: " + String.valueOf(integer));
             }
         });
 
         lineUpViewModel.getPositionFilledLiveData().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                positionFilled.setText("Position: "+integer+"/"+9);
+                positionFilled.setText("Position: " + integer + "/" + 9);
             }
         });
 
@@ -98,12 +95,15 @@ public class CreateLineUpFragment extends Fragment {
         sharedHelperViewModel.getSelectedPlayer().observe(getViewLifecycleOwner(), new Observer<Player>() {
             @Override
             public void onChanged(Player player) {
-                if (sharedHelperViewModel.getIndex().getValue() != -1){
-                    if(lineUpViewModel.setPlayerOnLineUp(player, sharedHelperViewModel.getIndex().getValue())){
-                        Toast.makeText(getContext(),"Player Added", Toast.LENGTH_SHORT).show();
+                if (sharedHelperViewModel.getIndex().getValue() != -1
+                        && player != null) {
+                    if (lineUpViewModel.setPlayerOnLineUp(player, sharedHelperViewModel.getIndex().getValue())) {
+                        Toast.makeText(getContext(), "Player Added", Toast.LENGTH_SHORT).show();
+                        sharedHelperViewModel.setIndex(-1);
+                        sharedHelperViewModel.setSelectedPlayer(null);
 
-                    }else{
-                        Toast.makeText(getContext(),"Cannot add player", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Cannot add player", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -112,12 +112,13 @@ public class CreateLineUpFragment extends Fragment {
         v.findViewById(R.id.saveLineupBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(lineUpViewModel.saveLineup()){
-                    Toast.makeText(getContext(),"Lineup Saved!", Toast.LENGTH_SHORT).show();
+                if (lineUpViewModel.saveLineup()) {
+                    Toast.makeText(getContext(), "Lineup Saved!", Toast.LENGTH_SHORT).show();
                     sharedHelperViewModel.setIndex(-1);
                     getParentFragmentManager().popBackStack();
-                }else{
-                    Toast.makeText(getContext(),"Lineup cannot be saved, fill in the rest of the players", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Lineup cannot be saved, fill in the rest of the players",
+                            Toast.LENGTH_SHORT).show();
                 }
 
             }

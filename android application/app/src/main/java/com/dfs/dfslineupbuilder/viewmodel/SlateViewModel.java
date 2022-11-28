@@ -42,7 +42,12 @@ public class SlateViewModel extends AndroidViewModel {
         savedSlateRepository = new SavedSlateRepository(application);
         apiInterface = APIClient.getClient().create(APIInterface.class);
         savedPlayerRepository = new SavedPlayerRepository(application);
-        fetchSavedLineups();
+        try{
+            fetchSavedLineups();
+        }catch (Exception e){
+            Log.d("Network","Error Fetching saved lineups");
+        }
+
     }
 
     public void insert(List<Slate> list)
