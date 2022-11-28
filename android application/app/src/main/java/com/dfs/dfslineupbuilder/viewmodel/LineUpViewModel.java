@@ -46,15 +46,15 @@ public class LineUpViewModel extends AndroidViewModel {
 
     public LineUpViewModel(@NonNull Application application) {
         super(application);
-        Players.getValue().add(new Player("Select Player", "QB","","",0,0,0));
-        Players.getValue().add(new Player("Select Player", "RB","","",0,0,0));
-        Players.getValue().add(new Player("Select Player", "RB","","",0,0,0));
-        Players.getValue().add(new Player("Select Player", "WR","","",0,0,0));
-        Players.getValue().add(new Player("Select Player", "WR","","",0,0,0));
-        Players.getValue().add(new Player("Select Player", "WR","","",0,0,0));
-        Players.getValue().add(new Player("Select Player", "TE","","",0,0,0));
-        Players.getValue().add(new Player("Select Player", "FL","","",0,0,0));
-        Players.getValue().add(new Player("Select Player", "DST","","",0,0,0));
+        ArrayList<Player> playerList = Players.getValue();
+        playerList.add(new Player("Select Player", "RB","","",0,0,0));
+        playerList.add(new Player("Select Player", "RB","","",0,0,0));
+        playerList.add(new Player("Select Player", "WR","","",0,0,0));
+        playerList.add(new Player("Select Player", "WR","","",0,0,0));
+        playerList.add(new Player("Select Player", "WR","","",0,0,0));
+        playerList.add(new Player("Select Player", "TE","","",0,0,0));
+        playerList.add(new Player("Select Player", "FL","","",0,0,0));
+        playerList.add(new Player("Select Player", "DST","","",0,0,0));
         savedSlateRepository = new SavedSlateRepository(application);
         savedPlayerRepository = new SavedPlayerRepository(application);
         slateRepository = new SlateRepository(application);

@@ -18,13 +18,13 @@ import com.dfs.dfslineupbuilder.R;
 public class ProfileFragment extends Fragment {
 
     private TextView userInfo;
-
+    SavedSlateFragment savedSlateFragment =  new SavedSlateFragment();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             FragmentManager fm = getParentFragmentManager();
-            fm.beginTransaction().add(R.id.UserLineupContainer, new SavedSlateFragment()).commit();
+            fm.beginTransaction().replace(R.id.UserLineupContainer, savedSlateFragment).commit();
         }
     }
 

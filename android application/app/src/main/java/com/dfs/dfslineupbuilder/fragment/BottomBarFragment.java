@@ -30,15 +30,19 @@ public class BottomBarFragment extends Fragment  implements View.OnClickListener
         return v;
     }
 
+    SlateOptionFragment slateOptionFragment = new SlateOptionFragment();
+    ProfileFragment profileFragment = new ProfileFragment();
+    RegulationFragment regulationFragment = new RegulationFragment();
+
     public void onClick(View v){
         FragmentManager fm = getActivity().getSupportFragmentManager();
         fm.popBackStack();
         if(v.getId() == R.id.HomeButton){
-            fm.beginTransaction().replace(R.id.ContentFragment,new SlateOptionFragment()).commit();
+            fm.beginTransaction().replace(R.id.ContentFragment,slateOptionFragment).commit();
         }else if (v.getId() == R.id.ProfileButton){
-            fm.beginTransaction().replace(R.id.ContentFragment,new ProfileFragment()).addToBackStack(null).commit();
+            fm.beginTransaction().replace(R.id.ContentFragment,profileFragment).addToBackStack(null).commit();
         }else{
-            fm.beginTransaction().replace(R.id.ContentFragment,new RegulationFragment()).addToBackStack(null).commit();
+            fm.beginTransaction().replace(R.id.ContentFragment,regulationFragment).addToBackStack(null).commit();
         }
     }
 }

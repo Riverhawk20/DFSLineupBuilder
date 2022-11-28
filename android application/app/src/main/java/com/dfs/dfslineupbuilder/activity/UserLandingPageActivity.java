@@ -13,9 +13,13 @@ import com.dfs.dfslineupbuilder.data.EntityRoomDatabase;
 import com.dfs.dfslineupbuilder.data.dao.SlateDao;
 import com.dfs.dfslineupbuilder.fragment.BottomBarFragment;
 import com.dfs.dfslineupbuilder.fragment.ProfileFragment;
+import com.dfs.dfslineupbuilder.fragment.RegulationFragment;
 import com.dfs.dfslineupbuilder.fragment.SlateOptionFragment;
 
 public class UserLandingPageActivity extends AppCompatActivity {
+
+    BottomBarFragment bottomBarFragment = new BottomBarFragment();
+    SlateOptionFragment slateOptionFragment = new SlateOptionFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +27,8 @@ public class UserLandingPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_landing_page);
         if(savedInstanceState != null) return;
         FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.BottomBarContainer, new BottomBarFragment()).commit();
-        fm.beginTransaction().add(R.id.ContentFragment, new SlateOptionFragment()).commit();
+        fm.beginTransaction().replace(R.id.BottomBarContainer, bottomBarFragment).commit();
+        fm.beginTransaction().replace(R.id.ContentFragment, slateOptionFragment).commit();
 
     }
 }
