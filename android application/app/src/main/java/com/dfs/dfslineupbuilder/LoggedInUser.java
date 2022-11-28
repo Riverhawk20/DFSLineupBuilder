@@ -33,7 +33,8 @@ public class LoggedInUser {
 
     public static void clearLoggedInUser(Context context){
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        editor.clear();
+        editor.remove(USER_ID);
+        editor.remove(USER_NAME);
         editor.commit();
     }
 

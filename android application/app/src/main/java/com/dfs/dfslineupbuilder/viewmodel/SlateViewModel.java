@@ -69,16 +69,20 @@ public class SlateViewModel extends AndroidViewModel {
         call.enqueue(new Callback<UserLineupResponse>() {
             @Override
             public void onResponse(Call<UserLineupResponse> call, Response<UserLineupResponse> response) {
-                for (UserLineup lineup : response.body().Lineups) {
-                    SavedSlate s = new SavedSlate(lineup.LineupId,lineup.TotalSalary,"SavedSlate","",0, lineup.UserId);
-                    for (SavedPlayer player : lineup.players) {
-                        player.savedSlateId = lineup.LineupId;
-                    }
+                if(response.isSuccessful()) {
+                    for (UserLineup lineup : response.body().Lineups) {
+                        SavedSlate s = new SavedSlate(lineup.LineupId, lineup.TotalSalary, "SavedSlate", "", 0, lineup.UserId);
+                        for (SavedPlayer player : lineup.players) {
+                            player.savedSlateId = lineup.LineupId;
+                        }
 
-                    savedPlayerRepository.insert(lineup.players);
-                    List<SavedSlate> l = new ArrayList<SavedSlate>();
-                    l.add(s);
-                    savedSlateRepository.insert(l);
+                        savedPlayerRepository.insert(lineup.players);
+                        List<SavedSlate> l = new ArrayList<SavedSlate>();
+                        l.add(s);
+                        savedSlateRepository.insert(l);
+                    }
+                }else{
+                    Log.i("Slate View Model", "saved lineup network call failure");
                 }
             }
 

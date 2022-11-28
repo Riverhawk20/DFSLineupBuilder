@@ -90,10 +90,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         boolean foundUser = false;
         for (User user: allUsers.getValue()) {
-            if(user.Email.equals(email) && user.PasswordHash.equals(passwordHash)){
-                Log.i(TAG, "login success from room");
-                foundUser = true;
-                handleLoginSuccess(user);
+            if(user.Email.equals(email)){
+                if(user.PasswordHash.equals(passwordHash)) {
+                    Log.i(TAG, "login success from room");
+                    foundUser = true;
+                    handleLoginSuccess(user);
+                }else{
+                    handleLoginFail();
+                }
             }
         }
         if(!foundUser){
@@ -115,6 +119,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Log.i(TAG, "login success from network");
                             userViewModel.insert(response.body());
                             handleLoginSuccess(response.body());
+                        }else{
+                            handleLoginFail();
                         }
                     }
                 }else{
@@ -132,9 +138,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void handleLoginFail(){
         Toast.makeText(this.getApplicationContext(), "Login Failure", Toast.LENGTH_SHORT).show();
-        emailET.setText("");
         passwordET.setText("");
-        finish();
     }
 
     private void handleLoginSuccess(User user){
