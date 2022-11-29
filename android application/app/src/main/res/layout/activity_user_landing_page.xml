@@ -10,7 +10,7 @@
         android:id="@+id/BottomBarContainer"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="#52CEA9"
+        android:background="@color/mainGreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

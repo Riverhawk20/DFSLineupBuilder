@@ -23,7 +23,7 @@
             android:layout_gravity="center"
             android:gravity="center|center_vertical"
             android:text="Home"
-            android:backgroundTint="#52CEA9"
+            android:backgroundTint="@color/mainGreen"
             android:drawableLeft="@drawable/homeicon"
             android:textSize="11sp"
             android:layout_marginTop="15dp"
@@ -37,7 +37,7 @@
             android:layout_marginTop="1dp"
             android:text="Profile"
             android:drawableLeft="@drawable/user_profile_02"
-            android:backgroundTint="#52CEA9"
+            android:backgroundTint="@color/mainGreen"
             android:textSize="11sp"
             android:textAllCaps="false" />
 
@@ -48,7 +48,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="1dp"
             android:text="Regulation"
-            android:backgroundTint="#52CEA9"
+            android:backgroundTint="@color/mainGreen"
             android:drawableLeft="@drawable/regulation"
             android:textSize="11sp"
             android:layout_marginBottom="15dp"

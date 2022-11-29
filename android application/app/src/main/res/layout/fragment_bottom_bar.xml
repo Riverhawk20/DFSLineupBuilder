@@ -26,7 +26,8 @@
             android:drawablePadding="5dp"
             android:gravity="center|center_vertical"
             android:text="Home"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textSize="11.5sp"/>
 
 
         <Button
@@ -43,7 +44,7 @@
 
         <Button
             android:id="@+id/RegulationButton"
-            android:layout_width="130dp"
+            android:layout_width="135dp"
             android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="1dp"
@@ -51,7 +52,7 @@
             android:text="Regulation"
             android:textAllCaps="false"
             android:backgroundTint="#52CEA9"
-            android:textSize="11.5sp" />
+            android:textSize="11sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
