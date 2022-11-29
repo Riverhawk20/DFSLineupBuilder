@@ -47,6 +47,7 @@ public class LineUpViewModel extends AndroidViewModel {
     public LineUpViewModel(@NonNull Application application) {
         super(application);
         ArrayList<Player> playerList = Players.getValue();
+        playerList.add(new Player("Select Player", "QB","","",0,0,0));
         playerList.add(new Player("Select Player", "RB","","",0,0,0));
         playerList.add(new Player("Select Player", "RB","","",0,0,0));
         playerList.add(new Player("Select Player", "WR","","",0,0,0));

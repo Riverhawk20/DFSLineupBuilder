@@ -8,9 +8,9 @@
 
     <FrameLayout
         android:id="@+id/BottomBarContainer"
-        android:layout_width="415dp"
-        android:layout_height="85dp"
-        android:background="#D8D8D8"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#52CEA9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

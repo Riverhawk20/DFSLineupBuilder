@@ -18,30 +18,41 @@
 
         <Button
             android:id="@+id/HomeButton"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:gravity="center|center_vertical"
             android:text="Home"
-            android:textSize="11sp" />
+            android:backgroundTint="#52CEA9"
+            android:drawableLeft="@drawable/homeicon"
+            android:textSize="11sp"
+            android:layout_marginTop="15dp"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/ProfileButton"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="1dp"
             android:text="Profile"
-            android:textSize="11sp" />
+            android:drawableLeft="@drawable/user_profile_02"
+            android:backgroundTint="#52CEA9"
+            android:textSize="11sp"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/RegulationButton"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="1dp"
             android:text="Regulation"
-            android:textSize="11sp" />
+            android:backgroundTint="#52CEA9"
+            android:drawableLeft="@drawable/regulation"
+            android:textSize="11sp"
+            android:layout_marginBottom="15dp"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,30 +18,40 @@
 
         <Button
             android:id="@+id/HomeButton"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="fill_parent"
+            android:backgroundTint="#52CEA9"
             android:layout_gravity="center_vertical"
+            android:drawableLeft="@drawable/homeicon"
+            android:drawablePadding="5dp"
             android:gravity="center|center_vertical"
             android:text="Home"
-            android:textSize="11sp" />
+            android:textAllCaps="false" />
+
 
         <Button
             android:id="@+id/ProfileButton"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:textSize="11sp"
-            android:text="Profile" />
+            android:layout_marginStart="1dp"
+            android:drawableLeft="@drawable/user_profile_02"
+            android:text="Profile"
+            android:textAllCaps="false"
+            android:backgroundTint="#52CEA9"
+            android:textSize="11.5sp" />
 
         <Button
             android:id="@+id/RegulationButton"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="1dp"
+            android:drawableLeft="@drawable/regulation"
             android:text="Regulation"
-            android:textSize="11sp" />
+            android:textAllCaps="false"
+            android:backgroundTint="#52CEA9"
+            android:textSize="11.5sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

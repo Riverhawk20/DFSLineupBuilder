@@ -56,6 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CreateAccountPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/CreateAccountPassword"
+        android:backgroundTint="@color/mainGreen"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

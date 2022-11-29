@@ -2,6 +2,7 @@ package com.dfs.dfslineupbuilder.fragment;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
@@ -52,6 +53,7 @@ public class SlateOptionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Select Slate");
         View v = inflater.inflate(R.layout.fragment_slate_option, container, false);
         recyclerView = v.findViewById(R.id.SlateContainer);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext().getApplicationContext()));
