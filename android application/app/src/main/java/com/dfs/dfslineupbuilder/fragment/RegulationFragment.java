@@ -118,7 +118,7 @@ public class RegulationFragment extends Fragment {
         if(state.length()!=0) {
             networkRequest(UserLocation.getUserLocation(ctx));
         }else{
-            regulationTV.setText("Error getting user location");
+            regulationTV.setText("Location cannot be determined");
         }
     }
 
@@ -148,6 +148,7 @@ public class RegulationFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Regulation>> call, Throwable t) {
                 Log.e("slate fragment", "onResponse error", t);
+                regulationTV.setText("Location cannot be determined");
             }
         });
 
